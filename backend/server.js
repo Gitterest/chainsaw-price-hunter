@@ -42,7 +42,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // ...previous imports, mongoose schemas, MongoDB connection...
 
-const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require('./scraper');
+const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require('../scraper');
 
 // Combined API Route to fetch from FB, OfferUp & Mercari
 app.get("/api/prices", async (req, res) => {
