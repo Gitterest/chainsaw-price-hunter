@@ -1,22 +1,26 @@
-# Use Node.js Image
-FROM node:20
+# Use Node.js LTS for building
+FROM node:20 AS build
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy app files
+# Copy all frontend source code
 COPY . .
 
-# Build the app
+# Build the frontend
 RUN npm run build
 
-# Expose Port
-EXPOSE 3000
+# Use NGINX for serving the frontend
+FROM nginx:alpine
 
-# Start app using serve
-RUN npm install -g serve
-CMD ["serve", "-s", "out"]
+# Copy build files to NGINX
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+
+# Expose frontend port
+EXPOSE 80
+
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
