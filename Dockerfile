@@ -15,7 +15,7 @@ COPY backend ./
 
 # Stage 3: Serve with Nginx for Frontend & Node for Backend
 FROM nginx:alpine AS frontend
-COPY --from=frontend-build /app/frontend/dist /usr/share/nginx/html
+COPY --from=frontend-build /app/frontend/.next /usr/share/nginx/html
 
 FROM node:20 AS backend
 WORKDIR /app/backend
@@ -27,6 +27,7 @@ CMD ["node", "server.js"]
 FROM ubuntu:22.04
 COPY --from=backend /app/backend /app/backend
 COPY --from=frontend /usr/share/nginx/html /usr/share/nginx/html
+COPY frontend/public /usr/share/nginx/html/public
 WORKDIR /app/backend
 EXPOSE 5000 80
 
