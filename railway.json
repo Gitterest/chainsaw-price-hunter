@@ -1,5 +1,16 @@
 {
-  "build": {
-    "builder": "DOCKER"
-  }
+  "services": [
+    {
+      "name": "frontend",
+      "root": "frontend",
+      "dockerfile": "Dockerfile",
+      "env": ".env"
+    },
+    {
+      "name": "backend",
+      "root": "backend",
+      "dockerfile": "Dockerfile",
+      "env": ".env"
+    }
+  ]
 }
