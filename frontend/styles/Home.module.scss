@@ -1,0 +1,96 @@
+/* 🔥 Global Styles */
+.container {
+    text-align: center;
+    padding: 40px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: white;
+    min-height: 100vh;
+}
+
+/* 🔍 Search Box Styling */
+.searchBox {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 🏆 Styled Input Field */
+.inputField input {
+    padding: 12px;
+    width: 300px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: #1c1c1c;
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+
+.inputField input:focus {
+    border-color: #00bfff;
+    outline: none;
+}
+
+/* 🔘 Styled Button */
+.button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* 📜 Results Styling */
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* 🎴 Result Card */
+.resultCard {
+    background-color: #1c1c1c;
+    border: 1px solid #444;
+    padding: 20px;
+    margin: 10px;
+    width: 280px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+}
+
+.resultCard:hover {
+    transform: translateY(-5px);
+}
+
+/* 🖼️ Image */
+.resultCard img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* 🔗 Links */
+.resultCard a {
+    display: block;
+    margin-top: 10px;
+    color: #00bfff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.resultCard a:hover {
+    text-decoration: underline;
+}
