@@ -1,0 +1,15 @@
+FROM node:20 AS backend
+
+WORKDIR /usr/src/app
+
+# Copy only package files to install dependencies
+COPY backend/package*.json ./
+RUN npm install
+
+# Copy backend source code
+COPY backend ./backend
+WORKDIR /usr/src/app/backend
+
+EXPOSE 5000
+
+CMD ["node", "server.js"]

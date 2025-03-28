@@ -1,11 +1,30 @@
+# Updated nixpacks.toml content for separate frontend and backend builds
+updated_nixpacks_content = """
 [phases.setup]
 nixPkgs = ["nodejs_20"]
 
-[phases.build]
+[phases.build.frontend]
 cmds = [
+  "cd frontend",
   "npm install",
   "npm run build"
 ]
 
-[start]
+[phases.build.backend]
+cmds = [
+  "cd backend",
+  "npm install"
+]
+
+[start.frontend]
+cmd = "nginx -g 'daemon off;'"
+
+[start.backend]
 cmd = "node server.js"
+"""
+
+# Write the updated nixpacks.toml
+with open(nixpacks_path, 'w', encoding='utf-8') as file:
+    file.write(updated_nixpacks_content)
+
+"Updated nixpacks.toml successfully."
