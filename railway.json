@@ -1,5 +1,5 @@
 {
-	"services": [
+  "services": [
     {
       "name": "frontend",
       "root": "frontend",
@@ -14,16 +14,3 @@
     }
   ]
 }
-
-
-Write the updated files
-with open(frontend_dockerfile_path, 'w', encoding='utf-8') as file:
-    file.write(frontend_dockerfile_content)
-
-with open(backend_dockerfile_path, 'w', encoding='utf-8') as file:
-    file.write(backend_dockerfile_content)
-
-with open(railway_path, 'w', encoding='utf-8') as file:
-    file.write(updated_railway_content)
-
-"Updated Dockerfiles and railway.json successfully."
