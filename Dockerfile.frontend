@@ -1,27 +1,29 @@
 # -------- Stage 1: Build Frontend --------
 FROM node:20 AS frontend-build
 
-WORKDIR /usr/src/app/frontend
+# Set the root directory for the frontend
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to install dependencies
-COPY frontend/package*.json ./
+# Copy only the package files for installing dependencies
+COPY ./frontend/package*.json ./frontend/
 
 # Install dependencies without copying node_modules
+WORKDIR /usr/src/app/frontend
 RUN npm install --force
 
-# Copy the rest of the frontend source code
-COPY frontend ./
+# Copy frontend source code
+COPY ./frontend ./frontend/
 
-# Build the application
+# Build the frontend using Next.js
 RUN npm run build
 
 # -------- Stage 2: Serve with Nginx --------
 FROM nginx:alpine AS production
 
-# Copy the built app to Nginx directory
+# Copy the built frontend from the previous stage
 COPY --from=frontend-build /usr/src/app/frontend/.next /usr/share/nginx/html
 
-# Expose port 80
+# Expose port 80 for HTTP
 EXPOSE 80
 
 # Start Nginx

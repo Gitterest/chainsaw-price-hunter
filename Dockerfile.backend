@@ -1,16 +1,18 @@
 # -------- Set up Backend --------
 FROM node:20 AS backend
 
+# Set the root directory for the application
+WORKDIR /usr/src/app
+
+# Copy only package files from the backend directory for installing dependencies
+COPY ./backend/package*.json ./backend/
+
+# Install dependencies using --force to avoid caching issues
 WORKDIR /usr/src/app/backend
-
-# Copy package files and install dependencies
-COPY backend/package*.json ./
-
-# Install dependencies
 RUN npm install --force
 
-# Copy backend source code
-COPY backend ./
+# Copy the entire backend source code
+COPY ./backend ./backend/
 
 # Expose port 5000 for the backend server
 EXPOSE 5000
