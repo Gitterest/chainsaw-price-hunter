@@ -1,18 +1,18 @@
-# -------- Stage 1: Set up Backend --------
+# -------- Set up Backend --------
 FROM node:20 AS backend
 
 WORKDIR /usr/src/app/backend
 
-# Copy only the package files for installing dependencies
+# Copy package files and install dependencies
 COPY backend/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --force
 
 # Copy backend source code
 COPY backend ./
 
-# Expose port 5000 for API
+# Expose port 5000 for the backend server
 EXPOSE 5000
 
 # Start the backend server

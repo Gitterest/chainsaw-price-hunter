@@ -3,25 +3,25 @@ FROM node:20 AS frontend-build
 
 WORKDIR /usr/src/app/frontend
 
-# Copy only the package files for installing dependencies
+# Copy package.json and package-lock.json to install dependencies
 COPY frontend/package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies without copying node_modules
+RUN npm install --force
 
-# Copy the frontend source code
+# Copy the rest of the frontend source code
 COPY frontend ./
 
-# Build the frontend
+# Build the application
 RUN npm run build
 
-# -------- Serve with Nginx --------
+# -------- Stage 2: Serve with Nginx --------
 FROM nginx:alpine AS production
 
-# Copy built files to Nginx public folder
+# Copy the built app to Nginx directory
 COPY --from=frontend-build /usr/src/app/frontend/.next /usr/share/nginx/html
 
-# Expose port 80 for HTTP
+# Expose port 80
 EXPOSE 80
 
 # Start Nginx
