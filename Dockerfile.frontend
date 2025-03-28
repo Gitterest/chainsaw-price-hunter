@@ -1,23 +1,28 @@
 # -------- Stage 1: Build Frontend --------
 FROM node:20 AS frontend-build
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/frontend
 
-# Copy only package files to install dependencies
+# Copy only the package files for installing dependencies
 COPY frontend/package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy frontend source code and build
-COPY frontend ./frontend
-WORKDIR /usr/src/app/frontend
+# Copy the frontend source code
+COPY frontend ./
+
+# Build the frontend
 RUN npm run build
 
-# Serve Frontend with Nginx
+# -------- Serve with Nginx --------
 FROM nginx:alpine AS production
 
-# Copy Frontend build output to Nginx HTML directory
+# Copy built files to Nginx public folder
 COPY --from=frontend-build /usr/src/app/frontend/.next /usr/share/nginx/html
 
+# Expose port 80 for HTTP
 EXPOSE 80
 
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
