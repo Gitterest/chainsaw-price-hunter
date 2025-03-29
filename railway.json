@@ -2,15 +2,15 @@
   "services": [
     {
       "name": "frontend",
-      "root": ".",
-      "dockerfile": "Dockerfile.frontend",
-      "env": ".env"
+      "buildCommand": "npm install && npm run build",
+      "startCommand": "npm start",
+      "rootDirectory": "frontend"
     },
     {
       "name": "backend",
-      "root": ".",
-      "dockerfile": "Dockerfile.backend",
-      "env": ".env"
+      "buildCommand": "npm install",
+      "startCommand": "node server.js",
+      "rootDirectory": "backend"
     }
   ]
 }
