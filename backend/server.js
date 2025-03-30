@@ -10,72 +10,90 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+// ✅ Connect to MongoDB
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-// Define Mongoose schema
+const uri = "mongodb+srv://rawfabricator:mongodmon@chainsawdb.6izrg.mongodb.net/?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("✅ Connected to MongoDB!");
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+  } finally {
+    await client.close();
+  }
+}
+
+run();
+
+// ✅ Define Mongoose schemas
 const SearchSchema = new mongoose.Schema({
-    query: String,
-    timestamp: { type: Date, default: Date.now },
+  query: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
 });
 
 const AlertSchema = new mongoose.Schema({
-    query: String,
-    targetPrice: Number,
-    email: String,
-    timestamp: { type: Date, default: Date.now },
+  query: { type: String, required: true },
+  targetPrice: { type: Number, required: true },
+  email: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
 });
 
 const Search = mongoose.model("Search", SearchSchema);
 const Alert = mongoose.model("Alert", AlertSchema);
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
-
-// ...previous imports, mongoose schemas, MongoDB connection...
-
+// ✅ Import scrapers
 const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require('./scraper');
 
-// Combined API Route to fetch from FB, OfferUp & Mercari
+// ✅ Combined API Route
 app.get("/api/prices", async (req, res) => {
-    const { query } = req.query;
-    if (!query) return res.status(400).json({ error: "Search query is required" });
+  const { query } = req.query;
+  
+  if (!query) return res.status(400).json({ error: "Search query is required" });
 
+  try {
+    // Save search query to MongoDB
     await new Search({ query }).save();
 
-    try {
-        const [fbResults, offerUpResults, mercariResults] = await Promise.all([
-            scrapeFacebookMarketplace(query),
-            scrapeOfferUp(query),
-            scrapeMercari(query)
-        ]);
+    // Perform scraping using Promise.allSettled to capture partial results if errors occur
+    const results = await Promise.allSettled([
+      scrapeFacebookMarketplace(query),
+      scrapeOfferUp(query),
+      scrapeMercari(query)
+    ]);
 
-        const combinedResults = [
-            ...fbResults.map(item => ({ ...item, source: 'Facebook Marketplace' })),
-            ...offerUpResults.map(item => ({ ...item, source: 'OfferUp' })),
-            ...mercariResults.map(item => ({ ...item, source: 'Mercari' }))
-        ];
+    const combinedResults = results
+      .filter(result => result.status === "fulfilled")
+      .flatMap(result => result.value.map(item => ({
+        ...item,
+        source: result.value.source || "Unknown"
+      })));
 
-        // 👇 Add this line to debug output!
-        console.log("🔥 Combined Results:", JSON.stringify(combinedResults, null, 2));
-
-        res.json(combinedResults);
-    } catch (error) {
-        console.error("🔥 Scraping error:", error);
-        res.status(500).json({ error: "Failed to scrape listings" });
+    if (combinedResults.length === 0) {
+      console.warn("⚠️ No results found for query:", query);
+      return res.status(404).json({ error: "No results found" });
     }
+
+    console.log("🔥 Combined Results:", JSON.stringify(combinedResults, null, 2));
+    res.json(combinedResults);
+  } catch (error) {
+    console.error("🔥 Error during scraping:", error);
+    res.status(500).json({ error: "Failed to scrape listings" });
+  }
 });
 
-
-// Start Server
+// ✅ Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
