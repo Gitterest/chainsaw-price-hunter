@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra"); // Use puppeteer-extra instead of puppeteer
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+
+// Use stealth plugin
+puppeteer.use(StealthPlugin());
+
 require("dotenv").config();
 
 const app = express();
