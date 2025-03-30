@@ -95,7 +95,8 @@ app.get("/api/prices", async (req, res) => {
   } catch (error) {
     console.error("🔥 Error during scraping:", error);
     res.status(500).json({ error: "Failed to scrape listings" });
-  }
+    app.get('/', (req, res) => {
+    res.send('Welcome to Chainsaw Price Tracker API!');
 });
 
 // ✅ Start the server
