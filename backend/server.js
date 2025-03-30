@@ -3,10 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const puppeteer = require("puppeteer-extra"); // Use puppeteer-extra instead of puppeteer
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-
-// Use stealth plugin
 puppeteer.use(StealthPlugin());
-
 require("dotenv").config();
 
 const app = express();
@@ -17,9 +14,7 @@ app.use(express.json());
 
 // ✅ Connect to MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
 const uri = "mongodb+srv://rawfabricator:mongodmon@chainsawdb.6izrg.mongodb.net/?retryWrites=true&w=majority";
-
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -39,8 +34,7 @@ async function run() {
     await client.close();
   }
 }
-
-run();
+run().catch(console.dir);
 
 // ✅ Define Mongoose schemas
 const SearchSchema = new mongoose.Schema({
@@ -92,11 +86,15 @@ app.get("/api/prices", async (req, res) => {
 
     console.log("🔥 Combined Results:", JSON.stringify(combinedResults, null, 2));
     res.json(combinedResults);
-  } catch (error) {
+   } catch (error) {
     console.error("🔥 Error during scraping:", error);
     res.status(500).json({ error: "Failed to scrape listings" });
-    app.get('/', (req, res) => {
-    res.send('Welcome to Chainsaw Price Tracker API!');
+  }
+});
+
+// Root route to verify the server is running
+app.get('/', (req, res) => {
+  res.status(200).send("✅ Welcome to Sawprice Hunter !");
 });
 
 // ✅ Start the server
