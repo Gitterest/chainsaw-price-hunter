@@ -1,0 +1,126 @@
+/* Container and Background */
+.container {
+  position: relative;
+  height: 100vh;
+  background: url('/chainsawbackground.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  overflow-y: auto;
+}
+
+.background-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  padding: 40px;
+}
+
+/* Header with Animation */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 60px;
+  color: #f96c00;
+  text-shadow: 3px 3px 10px black;
+  animation: pulse 2s infinite;
+}
+
+.header p {
+  font-size: 20px;
+  color: #fff;
+}
+
+/* Header Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Search Section */
+.search-section {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+input[type="text"] {
+  padding: 15px;
+  width: 300px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background-color: #f96c00;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background-color: #d65b00;
+}
+
+/* Results Section */
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.result-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 250px;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.result-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.result-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.result-card h3 {
+  font-size: 18px;
+  color: #f96c00;
+}
+
+.result-card a {
+  color: #fff;
+  text-decoration: none;
+  background-color: #f96c00;
+  padding: 10px 20px;
+  margin-top: 10px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.result-card a:hover {
+  background-color: #d65b00;
+}
+
+/* Loading and No Results */
+.loading, .no-results {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}

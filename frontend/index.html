@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SawPrice Hunter</title>
+  <!-- Include Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <!-- Custom animations -->
+  <style>
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fadeInDown {
+      animation: fadeInDown 1s ease-in-out;
+    }
+    @keyframes scaleUp {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+    .animate-scaleUp {
+      animation: scaleUp 0.5s ease-out;
+    }
+    /* Custom class for 360° rotation on hover */
+    .hover\\:rotate-360:hover {
+      transform: rotate(360deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 transition-colors duration-300">
+  <!-- Header Section -->
+  <header class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-6 text-center">
+    <h1 class="text-4xl font-bold animate-fadeInDown">SawPrice Hunter</h1>
+    <!-- Logo with easter egg trigger on double-click -->
+    <div id="logo" class="w-16 h-16 mx-auto mt-4 bg-cover bg-center cursor-pointer transform transition-transform duration-500 hover:rotate-360" style="background-image: url('chainsaw-icon.png');"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="p-6">
+    <div class="flex justify-center mt-8">
+      <input type="text" id="search-input" placeholder="Search chainsaw prices..." class="w-80 p-3 border border-orange-500 rounded-l focus:outline-none focus:border-yellow-500 transition duration-300" />
+      <button id="search-btn" class="p-3 border border-orange-500 bg-orange-500 text-white rounded-r transition duration-300 hover:bg-yellow-500 animate-bounce">
+        Search
+      </button>
+    </div>
+    <div id="results" class="max-w-2xl mx-auto mt-6 bg-white p-4 rounded shadow"></div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="text-center py-4">
+    <p class="text-sm">&copy; 2025 SawPrice Hunter. All rights reserved.</p>
+    <button id="darkModeToggle" class="mt-2 px-4 py-2 border border-gray-400 rounded transition duration-300 hover:bg-gray-200">
+      Toggle Dark Mode
+    </button>
+  </footer>
+
+  <!-- Hidden Easter Egg Container -->
+  <div id="easter-egg" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 text-white p-4 rounded-lg hidden animate-scaleUp">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold">Chainsaw Madness!</h2>
+      <p class="mt-2">You found the secret chainsaw easter egg! Enjoy the ride!</p>
+    </div>
+  </div>
+
+  <!-- JavaScript for functionality -->
+  <script>
+    // Simulated search functionality
+    document.getElementById('search-btn').addEventListener('click', function () {
+      const query = document.getElementById('search-input').value;
+      const results = document.getElementById('results');
+      if (query) {
+        results.innerHTML = `<p>Searching for "<strong>${query}</strong>"... Please wait.</p>`;
+        // Simulate an API delay
+        setTimeout(() => {
+          results.innerHTML = `<p>No results found for "<strong>${query}</strong>". Try a different search term.</p>`;
+        }, 1500);
+      }
+    });
+
+    // Easter egg trigger on logo double-click
+    document.getElementById('logo').addEventListener('dblclick', function () {
+      triggerEasterEgg();
+    });
+
+    // Easter egg: Trigger on secret key sequence "sawprice"
+    let secretCode = ['s', 'a', 'w', 'p', 'r', 'i', 'c', 'e'];
+    let codePosition = 0;
+    document.addEventListener('keydown', function (e) {
+      if (e.key.toLowerCase() === secretCode[codePosition]) {
+        codePosition++;
+        if (codePosition === secretCode.length) {
+          triggerEasterEgg();
+          codePosition = 0;
+        }
+      } else {
+        codePosition = 0;
+      }
+    });
+
+    // Function to display the easter egg
+    function triggerEasterEgg() {
+      const egg = document.getElementById('easter-egg');
+      egg.classList.remove('hidden');
+      setTimeout(() => {
+        egg.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Dark mode toggle functionality
+    document.getElementById('darkModeToggle').addEventListener('click', function () {
+      document.documentElement.classList.toggle('dark');
+      // Optionally update body colors for smooth transition
+      if (document.documentElement.classList.contains('dark')) {
+        document.body.classList.replace('bg-gray-100', 'bg-gray-900');
+        document.body.classList.replace('text-gray-900', 'text-gray-100');
+      } else {
+        document.body.classList.replace('bg-gray-900', 'bg-gray-100');
+        document.body.classList.replace('text-gray-100', 'text-gray-900');
+      }
+    });
+  </script>
+</body>
+</html>
