@@ -1,0 +1,137 @@
+/* styles.css */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  background: linear-gradient(135deg, #ff6f00, #ff8f00);
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+/* Logo with rotation on hover */
+.logo {
+  width: 60px;
+  height: 60px;
+  background-image: url('chainsaw-icon.png');
+  background-size: cover;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+.logo:hover {
+  transform: rotate(360deg);
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+}
+
+.search-container input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #ff6f00;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.search-container input[type="text"]:focus {
+  border-color: #ff8f00;
+}
+
+.search-container button {
+  padding: 10px 20px;
+  border: 2px solid #ff6f00;
+  background: #ff6f00;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  transition: background 0.3s;
+}
+
+/* Bounce animation on hover for search button */
+.search-container button:hover {
+  background: #ff8f00;
+  animation: buttonBounce 0.5s ease;
+}
+
+.results {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Easter Egg styling */
+.easter-egg {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  animation: scaleUp 0.5s ease-out;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes buttonBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+body.dark-mode header {
+  background: linear-gradient(135deg, #444, #666);
+}
+body.dark-mode .search-container input[type="text"],
+body.dark-mode .search-container button {
+  border-color: #888;
+}
+body.dark-mode .results {
+  background: #1e1e1e;
+}
