@@ -138,9 +138,3 @@ full_dashboard_scss = """
   }
 }
 """
-
-# Write the SCSS file
-with open(scss_path, "w") as f:
-    f.write(full_dashboard_scss.strip())
-
-"✅ Dashboard.module.scss generated with full dark theme styling."

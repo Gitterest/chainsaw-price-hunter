@@ -1,5 +1,3 @@
-# --- ResultList.js ---
-resultlist_code = """
 import styles from '../styles/Dashboard.module.scss';
 import ResultCard from './ResultCard';
 
@@ -16,4 +14,3 @@ export default function ResultList({ results }) {
     </div>
   );
 }
-"""
