@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+import Collapsible from '../components/Collapsible';
 import SearchBar from '../components/SearchBar';
 import ResultCard from '../components/ResultCard';
 
