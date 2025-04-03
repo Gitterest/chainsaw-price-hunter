@@ -1,36 +1,18 @@
-# Generate a clean Dockerfile.frontend for Next.js (web only) deployment
-clean_dockerfile_frontend = """
-# -------- Stage 1: Build Next.js Web Frontend --------
+# Stage 1: Build
 FROM node:20 AS builder
-
-# Set working directory
 WORKDIR /app
 
-# Copy and install dependencies
+# Copy only frontend files
 COPY ./frontend/package*.json ./
 RUN npm install --force
+COPY ./frontend .
 
-# Copy source code
-COPY ./frontend ./
-
-# Build the frontend
 RUN npm run build
 
-# -------- Stage 2: Serve with Nginx --------
+# Stage 2: Serve with Nginx
 FROM nginx:alpine
-
-# Copy the built Next.js app to the Nginx web root
 COPY --from=builder /app/.next /usr/share/nginx/html
 COPY --from=builder /app/public /usr/share/nginx/html
-COPY --from=builder /app/next.config.js /etc/nginx/conf.d/default.conf
-
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-"""
-
-# Write the clean Dockerfile.frontend
-with open(docker_frontend_path, "w") as f:
-    f.write(clean_dockerfile_frontend.strip())
-
-"✅ Clean Dockerfile.frontend regenerated (web-only, excludes frontend-mobile)."
