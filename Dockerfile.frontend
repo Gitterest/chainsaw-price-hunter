@@ -1,18 +1,36 @@
-# Stage 1: Build
+# Completely clean Dockerfile.frontend that ONLY builds the frontend web app
+final_clean_dockerfile_frontend = """
+# -------- Stage 1: Build Next.js Web Frontend --------
 FROM node:20 AS builder
+
+# Set working directory to /app
 WORKDIR /app
 
-# Copy only frontend files
-COPY ./frontend/package*.json ./
+# Copy only frontend files (no ../ references)
+COPY frontend/package*.json ./
 RUN npm install --force
-COPY ./frontend .
 
+# Copy the rest of the frontend source
+COPY frontend .
+
+# Build the frontend
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+# -------- Stage 2: Serve with Nginx --------
 FROM nginx:alpine
+
+# Copy the frontend build output
 COPY --from=builder /app/.next /usr/share/nginx/html
 COPY --from=builder /app/public /usr/share/nginx/html
+
+# Expose web port
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
+"""
+
+# Write it to the actual Dockerfile.frontend path
+with open(docker_frontend_path, "w") as f:
+    f.write(final_clean_dockerfile_frontend.strip())
+
+"✅ Final Dockerfile.frontend written — clean, scoped, and safe to deploy."
