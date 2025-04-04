@@ -1,9 +1,11 @@
 {
-  "name": "chainsaw-price-tracker",
+  "name": "chainsaw-price-hunter",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
