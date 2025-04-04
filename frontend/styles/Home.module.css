@@ -1,7 +1,3 @@
-from pathlib import Path
-
-# Define the new Home.module.css content to match the requested index.js structure and styling
-home_module_css = """
 /* 🌈 Home.module.css - Styling for Chainsaw Price Hunter App */
 
 .container {
@@ -111,9 +107,6 @@ home_module_css = """
   color: #ccc;
 }
 
-# Add detailed matching CSS for contact.js components into Home.module.css
-
-contact_styles = """
 /* 📬 Contact Page Styling */
 
 .contactForm {
@@ -192,12 +185,3 @@ contact_styles = """
     background-color: #1e1e1e;
   }
 }
-"""
-
-# Append to Home.module.css
-home_css_path = Path("/mnt/data/Home.module.css")
-current = home_css_path.read_text()
-new_css = current.strip() + "\n\n" + contact_styles.strip()
-home_css_path.write_text(new_css)
-
-home_css_path.name
