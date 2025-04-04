@@ -10,8 +10,7 @@
         FaMapMarkerAlt,
     } from 'react-icons/fa';
 	import styles from '../styles/Dashboard.module.scss';
-    import styles from '../styles/Home.module.css';
-	import Loader from '../components/Loader';
+    import Loader from '../components/Loader';
 
     // 🎯 Main Home Page Component
     export default function Home() {
