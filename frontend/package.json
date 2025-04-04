@@ -22,11 +22,12 @@
   "devDependencies": {
     "@types/node": "22.13.14",
     "@types/react": "19.0.12",
-    "autoprefixer": "^10.4.21",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.0.2",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.2"
+    "tailwindcss": "^4.1.2",
+	"postcss": "^8.5.3",
+	"autoprefixer": "^10.4.21"
+    
   },
   "eslintConfig": {
     "extends": "next/core-web-vitals"
