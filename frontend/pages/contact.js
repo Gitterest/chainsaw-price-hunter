@@ -72,7 +72,7 @@ const Contact = () => {
           <FaPhoneAlt className={styles.inputIcon} />
           <textarea
             name="message"
-            placeholder="What's on your mind?"
+            placeholder="What&apos;s on your mind?"
             value={formData.message}
             onChange={handleChange}
             rows="5"
@@ -95,7 +95,7 @@ const Contact = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            ✅ Message sent! We'll get back to you soon.
+            ✅ Message sent! We shall get back to you soon.
           </motion.p>
         )}
       </motion.form>
