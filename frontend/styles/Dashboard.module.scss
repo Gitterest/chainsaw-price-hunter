@@ -1,5 +1,3 @@
-# Generate Dashboard.module.scss with all dark theme styles
-full_dashboard_scss = """
 .container {
   min-height: 100vh;
   background-color: #121212;
@@ -137,4 +135,4 @@ full_dashboard_scss = """
     }
   }
 }
-"""
+
