@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from '../styles/Dashboard.module.scss';
 import Loader from '../components/Loader';
-import {
-    FaSearch,
-    FaFacebook,
-    FaEnvelope,
-} from 'react-icons/fa';
+import { FaUser, FaCode, FaFacebook, FaSearch, FaEnvelope } from 'react-icons/fa';
 
 export default function Home() {
     const [query, setQuery] = useState('');
@@ -52,7 +48,7 @@ export default function Home() {
 
     const ResultCard = ({ item }) => (
         <motion.div className={styles.card} whileHover={{ scale: 1.02 }}>
-            <img src={item.image} alt={item.title} className={styles.cardImage} />
+            <Image src={item.image} alt={item.title} className={styles.cardImage} />
             <div className={styles.cardContent}>
                 <h3>{item.title}</h3>
                 {item.price && <p>{item.price}</p>}

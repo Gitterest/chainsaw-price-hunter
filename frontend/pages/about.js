@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from '../styles/Dashboard.module.scss';
 import Loader from '../components/Loader';
-import {
-    FaSearch,
-    FaFacebook,
-    FaEnvelope,
-} from 'react-icons/fa';
+import { FaInfoCircle, FaBolt, FaCode, FaLeaf } from 'react-icons/fa';
 
 const About = () => {
   return (
