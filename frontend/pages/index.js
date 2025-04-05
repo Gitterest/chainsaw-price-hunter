@@ -48,7 +48,7 @@ export default function Home() {
 
     const ResultCard = ({ item }) => (
         <motion.div className={styles.card} whileHover={{ scale: 1.02 }}>
-            <Image src={item.image} alt={item.title} className={styles.cardImage} />
+            <img src={item.image} alt={item.title} className={styles.cardImage} />
             <div className={styles.cardContent}>
                 <h3>{item.title}</h3>
                 {item.price && <p>{item.price}</p>}
