@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaUser, FaPaperPlane, FaComments, FaPhoneAlt } from 'react-icons/fa';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
