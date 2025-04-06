@@ -1,36 +1,5 @@
 {
-  "name": "chainsaw-price-hunter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "start": "cd frontend && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gitterest/chainsaw-price-hunter.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Gitterest/chainsaw-price-hunter/issues"
-  },
-  "homepage": "https://github.com/Gitterest/chainsaw-price-hunter#readme",
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.3",
-    "tailwindcss": "^4.0.17"
-  },
   "dependencies": {
-    "autoprefixer": "^10.4.21",
-    "next": "^15.2.4",
-    "postcss": "^8.5.3",
-    "postcss-loader": "^8.1.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "sass": "^1.86.3"
+    "mongodb": "^6.15.0"
   }
 }

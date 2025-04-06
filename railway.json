@@ -2,15 +2,15 @@
   "services": [
     {
       "name": "frontend",
+      "rootDirectory": "frontend",
       "buildCommand": "npm install && npm run build",
-      "startCommand": "npm start",
-      "rootDirectory": "frontend"
+      "startCommand": "npm run start"
     },
     {
       "name": "backend",
+      "rootDirectory": "backend",
       "buildCommand": "npm install",
-      "startCommand": "node server.js",
-      "rootDirectory": "backend"
+      "startCommand": "node server.js"
     }
   ]
 }
