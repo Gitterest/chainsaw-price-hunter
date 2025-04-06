@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply box-border p-0 m-0;
+}
+
 /* Root variables for light and dark mode */
 :root {
   --background: #ffffff;
