@@ -1,20 +1,25 @@
-import styles from '../styles/Dashboard.module.scss';
+import React from 'react';
+import { motion } from 'framer-motion';
+import styles from '../styles/Home.module.scss';
 
-export default function ResultCard({ result }) {
+export default function ResultCard({ item }) {
   return (
-    <a
-      href={result.link}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
       className={styles.card}
+      whileHover={{ scale: 1.03, y: -5 }}
+      transition={{ duration: 0.3 }}
     >
-      {result.image && (
-        <img src={result.image} alt={result.title} className={styles.resultImage} />
-      )}
-      <h3>{result.title}</h3>
-      {result.price && <p>{result.price}</p>}
-      {result.source && <p className={styles.source}>{result.source}</p>}
-      <p className={styles.link}>🔗 View on Facebook</p>
-    </a>
+      <div className={styles.cardImageWrap}>
+        <img src={item.image} alt={item.title} className={styles.cardImage} />
+      </div>
+      <div className={styles.cardContent}>
+        <h3>{item.title}</h3>
+        {item.price && <p className={styles.price}>{item.price}</p>}
+        <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.link}>
+          View Listing
+        </a>
+        <span className={styles.sourceTag}>{item.source}</span>
+      </div>
+    </motion.div>
   );
 }
