@@ -4,11 +4,12 @@ import { useEffect } from 'react';
 
 const CursorEffects = () => {
   useEffect(() => {
-    let cursorInstance;
+    let cursor;
 
-    import('https://unpkg.com/cursor-effects@latest/dist/esm.js')
+    // ✅ This dynamic import happens only in the browser after load
+    import('https://unpkg.com/cursor-effects@1.1.0/dist/esm.js')
       .then(({ textFlag }) => {
-        cursorInstance = new textFlag({
+        cursor = new textFlag({
           text: 'Get Sawed',
           color: ['#FF6800'],
         });
@@ -18,7 +19,7 @@ const CursorEffects = () => {
       });
 
     return () => {
-      if (cursorInstance?.destroy) cursorInstance.destroy();
+      if (cursor?.destroy) cursor.destroy();
     };
   }, []);
 
