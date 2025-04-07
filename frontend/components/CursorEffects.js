@@ -1,16 +1,25 @@
 'use client';
 
 import { useEffect } from 'react';
-import { textFlag } from 'CursorEffects';
 
 const CursorEffects = () => {
   useEffect(() => {
-    const effect = new textFlag({
-      text: 'Get Sawed',
-      color: ['#FF6800'],
-    });
+    let cursorInstance;
 
-    return () => effect.destroy();
+    import('https://unpkg.com/cursor-effects@latest/dist/esm.js')
+      .then(({ textFlag }) => {
+        cursorInstance = new textFlag({
+          text: 'Get Sawed',
+          color: ['#FF6800'],
+        });
+      })
+      .catch((err) => {
+        console.error('Failed to load cursor-effects:', err);
+      });
+
+    return () => {
+      if (cursorInstance?.destroy) cursorInstance.destroy();
+    };
   }, []);
 
   return null;
