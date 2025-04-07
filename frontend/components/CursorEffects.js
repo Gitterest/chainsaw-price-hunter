@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { textFlag } from 'cursor-effects';
+import { textFlag } from 'cursoreffects';
 
 const CursorEffects = () => {
   useEffect(() => {
