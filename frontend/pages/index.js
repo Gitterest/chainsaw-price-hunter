@@ -28,9 +28,11 @@ export default function Home() {
       <motion.div className={styles.background} initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
 
       <section className={styles.hero}>
-        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          🪚 Sawprice Hunter
-        </motion.h1>
-        <p className={styles.subtitle}>
-          A chainsaw price tracker for dangerous deals. Compare from the top marketplaces.
-        </p>
+<motion.h1
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.3 }}
+>
+  🪚 Sawprice Hunter
+</motion.h1>
+
