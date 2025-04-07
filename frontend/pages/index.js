@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.scss';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
+import CursorEffects from '../components/CursorEffects';
 
 export default function Home() {
   const [query, setQuery] = useState('');
