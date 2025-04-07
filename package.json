@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cursor-effects": "^1.0.17",
     "mongodb": "^6.15.0"
   }
 }

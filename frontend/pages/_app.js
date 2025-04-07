@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <DynamicCursorEffects />
-      <Component {...pageProps} />
     </>
   );
 }
