@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import styles from '../styles/Home.module.scss';
-import ResultCard from '../components/ResultCard';
+import Loader from '../components/Loader';
+import ResultList from '../components/ResultList';
+import HeroDecoration from '../components/HeroDecoration';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -25,47 +27,67 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <motion.div className={styles.background} initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+      <motion.div
+        className={styles.background}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      />
 
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
+        <HeroDecoration />
+
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
           🪚 Sawprice Hunter
         </motion.h1>
 
         <p className={styles.subtitle}>
-          A chainsaw price tracker for dangerous deals. Compare from the top marketplaces.
+          A chainsaw price tracker for finding current values and deals.
         </p>
 
-        <div className={styles.searchBar}>
+        <motion.div className={styles.searchBar} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
           <input
             type="text"
-            placeholder="Search chainsaws, e.g. 'Stihl MS 271'"
+            placeholder="Search chainsaws, e.g. 'Husqvarna 372XP'"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            className={styles.searchInput}
           />
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleSearch}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSearch}
+            className={styles.searchButton}
+          >
             <FaSearch /> Search
           </motion.button>
-        </div>
+        </motion.div>
       </section>
 
-      {loading && <p className={styles.loading}>Scanning marketplace data...</p>}
+      <section className={styles.resultsSection}>
+        {loading ? (
+          <Loader />
+        ) : (
+          <ResultList results={results} />
+        )}
+      </section>
 
-      <div className={styles.grid}>
-        {results.length > 0 && results.map((item, idx) => <ResultCard key={idx} item={item} />)}
-      </div>
-
-      <footer className={styles.footer}>
-        <p>© {new Date().getFullYear()} Sawprice Hunter | Built with cold steel & code</p>
+      <motion.footer
+        className={styles.footer}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
+        <p>© {new Date().getFullYear()} Sawprice Hunter | Built by the creators of the Fuck Saw</p>
         <div className={styles.socials}>
           <a href="#"><FaFacebook /></a>
           <a href="#"><FaEnvelope /></a>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }

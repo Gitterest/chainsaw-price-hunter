@@ -1,54 +1,120 @@
-.container {
-  padding: 2rem;
-  background-color: #121212;
-  color: #fff;
+/* 🎨 Enhanced Home.module.scss – Max Detail Visual Styling */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 4rem;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(59,130,246,0.15), transparent 70%),
+              radial-gradient(circle at 70% 80%, rgba(96,165,250,0.12), transparent 60%);
+  z-index: -1;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 2rem;
 }
 
 .searchBar {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .searchInput {
-  flex: 1;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid #555;
-  background-color: #1f1f1f;
-  color: #fff;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #f8fafc;
+  width: 300px;
+  transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #3b82f6;
 }
 
 .searchButton {
-  background-color: #ff4c4c;
+  background: #3b82f6;
   color: white;
-  border: none;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
 }
 
-.resultsGrid {
+.searchButton:hover {
+  background: #2563eb;
+}
+
+.resultsSection {
+  padding: 2rem 1rem;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-top: auto;
+  padding: 2rem 1rem 1rem;
+  border-top: 1px solid #334155;
+  background: #0f172a;
+}
+
+.socials {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
   gap: 1rem;
 }
 
-.resultCard {
-  background-color: #2a2a2a;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+.socials a {
+  color: #94a3b8;
+  font-size: 1.25rem;
+  transition: color 0.2s;
 }
 
-.resultImage {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
+.socials a:hover {
+  color: #3b82f6;
 }

@@ -1,16 +1,43 @@
+import { motion } from 'framer-motion';
 import styles from '../styles/Dashboard.module.scss';
 import ResultCard from './ResultCard';
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100 } },
+};
+
 export default function ResultList({ results }) {
   if (!results.length) {
-    return <p className={styles.noResults}>No results found.</p>;
+    return (
+      <div className={styles.noResultsWrap}>
+        <p className={styles.noResults}>🔍 No chainsaws found. Try another search!</p>
+      </div>
+    );
   }
 
   return (
-    <div className={styles.resultsGrid}>
+    <motion.div
+      className={styles.resultsGrid}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
       {results.map((r, idx) => (
-        <ResultCard key={idx} result={r} />
+        <motion.div key={idx} variants={itemVariants}>
+          <ResultCard item={r} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
