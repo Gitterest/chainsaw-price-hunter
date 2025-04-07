@@ -8,8 +8,8 @@ const DynamicCursorEffects = dynamic(() => import('../components/CursorEffects')
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <DynamicCursorEffects />
-    </>
+      {/* <DynamicCursorEffects /> */}
+     </>
   );
 }
 
