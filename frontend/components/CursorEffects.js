@@ -2,28 +2,30 @@
 
 import { useEffect } from 'react';
 
-const CursorEffects = () => {
+export default function CursorEffects() {
   useEffect(() => {
-    let cursor;
-
-    // ✅ This dynamic import happens only in the browser after load
-    import('https://unpkg.com/cursor-effects@1.1.0/dist/esm.js')
-      .then(({ textFlag }) => {
-        cursor = new textFlag({
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/cursor-effects@latest/dist/browser.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.cursoreffects?.textFlag) {
+        const effect = new window.cursoreffects.textFlag({
           text: 'Get Sawed',
-          color: ['#FF6800'],
+          color: ['#FF4D00'], // 🔥 Electric Tangerine glow
         });
-      })
-      .catch((err) => {
-        console.error('Failed to load cursor-effects:', err);
-      });
+
+        window._cursorEffectInstance = effect;
+      }
+    };
+
+    document.body.appendChild(script);
 
     return () => {
-      if (cursor?.destroy) cursor.destroy();
+      if (window._cursorEffectInstance?.destroy) {
+        window._cursorEffectInstance.destroy();
+      }
     };
   }, []);
 
   return null;
-};
-
-export default CursorEffects;
+}
