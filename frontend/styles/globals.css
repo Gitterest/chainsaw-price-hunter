@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply box-border p-0 m-0;
-}
-
 /* Root variables for light and dark mode */
 :root {
   --background: #ffffff;
@@ -14,7 +10,6 @@
   --error: #e63946;
 }
 
-/* Dark mode preferences */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -24,7 +19,6 @@
   }
 }
 
-/* General body styles */
 html,
 body {
   max-width: 100vw;
@@ -35,12 +29,10 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Apply global resets using Tailwind utility classes */
 * {
   @apply box-border p-0 m-0;
 }
 
-/* Global link styles */
 a {
   color: var(--accent);
   text-decoration: none;
@@ -51,7 +43,6 @@ a:hover {
   color: var(--foreground);
 }
 
-/* Utility for focus-visible (improves accessibility) */
 button,
 input,
 textarea,
@@ -59,7 +50,6 @@ a {
   @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50;
 }
 
-/* Error and Success Message Styles */
 .error-message {
   color: var(--error);
   @apply text-sm;
@@ -70,14 +60,12 @@ a {
   @apply text-sm;
 }
 
-/* Dark Mode Settings */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
 
-/* Custom Scrollbar Styling (Optional) */
 ::-webkit-scrollbar {
   width: 8px;
 }
