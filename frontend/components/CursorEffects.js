@@ -11,7 +11,7 @@ export default function CursorEffects() {
       if (window.cursoreffects?.textFlag) {
         const effect = new window.cursoreffects.textFlag({
           text: 'Get Sawed',
-          color: ['#FF4D00'], // 🔥 Electric Tangerine glow
+          color: ['#FF4D00'],
         });
 
         window._cursorEffectInstance = effect;
