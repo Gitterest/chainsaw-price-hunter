@@ -1,16 +1,6 @@
-import dynamic from 'next/dynamic';
+// frontend/pages/_app.js
 import '../styles/globals.css';
 
-const DynamicCursorEffects = dynamic(() => import('../components/CursorEffects'), {
-  ssr: false,
-});
-
-function MyApp({ Component, pageProps }) {
-  return (
-    <>
-      {/* <DynamicCursorEffects /> */}
-     </>
-  );
+export default function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
 }
-
-export default MyApp;
