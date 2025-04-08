@@ -5,7 +5,6 @@ import styles from '../styles/Home.module.scss';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
-import CursorEffects from '../components/CursorEffects';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -13,18 +12,21 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
-    setLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/prices?query=${query}`);
-      const data = await res.json();
-      setResults(data);
-    } catch (err) {
-      console.error('Search failed:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!query.trim()) return;
+  setLoading(true);
+  try {
+    console.log('ENV VALUE:', process.env.NEXT_PUBLIC_API_URL);
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    console.log('API BASE:', API_BASE);
+    const res = await fetch(`${API_BASE}/api/prices?query=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    setResults(data);
+  } catch (err) {
+    console.error('Search failed:', err);
+  } finally {
+    setLoading(false);
+  }
+ };
 
   return (
     <div className={styles.page}>
@@ -43,8 +45,9 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          🪚 Sawprice Hunter
-        </motion.h1>
+           <img src="/chainsaw.gif" alt="chainsaw" className={styles.gif} />
+          Sawprice Hunter
+		 </motion.h1>
 
         <p className={styles.subtitle}>
           A chainsaw price tracker for finding current values and deals.

@@ -1,5 +1,5 @@
 {
-  "name": "chainsaw-price-tracker-backend",
+  "name": "chainsaw-price-hunter-backend",
   "version": "1.0.0",
   "main": "server.js",
   "private": true,

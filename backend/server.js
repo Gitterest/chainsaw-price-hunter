@@ -26,6 +26,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
+	await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     await client.db("admin").command({ ping: 1 });
     console.log("✅ Connected to MongoDB!");
   } catch (error) {
@@ -62,8 +63,8 @@ app.get("/api/prices", async (req, res) => {
   if (!query) return res.status(400).json({ error: "Search query is required" });
 
   try {
-    // Save search query to MongoDB
-    await new Search({ query }).save();
+    // Save search query to MongoDB — DISABLED TEMPORARILY
+    // await new Search({ query }).save();
 
     // Perform scraping using Promise.allSettled to capture partial results if errors occur
     const results = await Promise.allSettled([

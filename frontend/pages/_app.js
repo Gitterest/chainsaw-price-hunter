@@ -1,8 +1,6 @@
-// frontend/pages/_app.js
 import '../styles/globals.css';
 import dynamic from 'next/dynamic';
 
-// ⬇️ Dynamically import cursor for client-side only
 const DynamicCursorEffects = dynamic(() => import('../components/CursorEffects'), {
   ssr: false,
 });

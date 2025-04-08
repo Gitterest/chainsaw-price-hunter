@@ -1,29 +1,32 @@
 'use client';
 
 import { useEffect } from 'react';
+import { textFlag } from 'cursor-effects'; // ⬅️ Now using NPM version
 
 export default function CursorEffects() {
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/cursor-effects@latest/dist/browser.js';
-    script.async = true;
-    script.onload = () => {
-      if (window.cursoreffects?.textFlag) {
-        const effect = new window.cursoreffects.textFlag({
-          text: 'Get Sawed',
-          color: ['#FF4D00'],
-        });
+    const effect = new textFlag({
+      text: 'Get Sawed',
+      color: ['#FF5C1F'] // Neon orange glow
+    });
+	
+	const enhanceGlow = () => {
+      const canvas = document.querySelector('canvas');
+      if (!canvas) return;
 
-        window._cursorEffectInstance = effect;
-      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+	  ctx.font = 'bold 22px "Orbitron", sans-serif';
+     
     };
 
-    document.body.appendChild(script);
+    // Delay glow until canvas is rendered
+    setTimeout(enhanceGlow, 200);
+
 
     return () => {
-      if (window._cursorEffectInstance?.destroy) {
-        window._cursorEffectInstance.destroy();
-      }
+      if (effect?.destroy) effect.destroy();
     };
   }, []);
 
