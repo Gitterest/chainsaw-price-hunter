@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '@fontsource/bebas-neue';
 import dynamic from 'next/dynamic';
 
 const DynamicCursorEffects = dynamic(() => import('../components/CursorEffects'), {

@@ -32,6 +32,12 @@ body {
 * {
   @apply box-border p-0 m-0;
 }
+@font-face {
+  font-family: 'BleedingCowboys';
+  src: url('/public/fonts/BleedingCowboys.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 a {
   color: var(--accent);
