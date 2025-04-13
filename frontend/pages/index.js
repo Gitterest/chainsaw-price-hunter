@@ -17,26 +17,42 @@ export default function Home() {
     setLoading(true);
     setError(null);
 
-    try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_BASE =
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5000'
+        : process.env.NEXT_PUBLIC_API_URL;
 
-      const res = await fetch(`${API_BASE}/api/prices?query=${encodeURIComponent(query)}`, {
-        method: "GET",
+    if (!API_BASE) {
+      console.error('❌ Missing NEXT_PUBLIC_API_URL. Aborting fetch.');
+      setError('API not configured properly. Please contact support.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}`;
+      console.log('🔗 Fetching:', url);
+
+      const res = await fetch(url, {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
-        credentials: "include"
+        credentials: 'include',
       });
 
+      const text = await res.text();
+      console.log('📥 Raw response:', text);
+
       if (!res.ok) {
-        throw new Error(`Server error: ${res.status}`);
+        throw new Error(`Server error ${res.status}: ${text}`);
       }
 
-      const data = await res.json();
+      const data = JSON.parse(text);
       setResults(data);
     } catch (err) {
-      console.error('Search failed:', err);
-      setError('Could not fetch results. Please try again.');
+      console.error('🚨 Fetch failed:', err.message || err);
+      setError('Failed to load chainsaw listings. Try again later.');
       setResults([]);
     } finally {
       setLoading(false);
@@ -68,10 +84,15 @@ export default function Home() {
           A chainsaw price tracker for finding current values and deals.
         </p>
 
-        <motion.div className={styles.searchBar} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+        <motion.div
+          className={styles.searchBar}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           <input
             type="text"
-            placeholder="Search chainsaws e.g. 'Husqvarna 372XP'"
+            placeholder="Search chainsaws, e.g. 'Husqvarna 372XP'"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -96,7 +117,9 @@ export default function Home() {
         ) : results.length > 0 ? (
           <ResultList results={results} />
         ) : (
-          <p className={styles.placeholderText}>Try searching for a chainsaw above ⬆</p>
+          <p className={styles.placeholderText}>
+            🔍 No chainsaws found. Try another search!
+          </p>
         )}
       </section>
 
