@@ -10,23 +10,38 @@ export default function Home() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
-  if (!query.trim()) return;
-  setLoading(true);
-  try {
-    console.log('ENV VALUE:', process.env.NEXT_PUBLIC_API_URL);
-    const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    console.log('API BASE:', API_BASE);
-    const res = await fetch(`${API_BASE}/api/prices?query=${encodeURIComponent(query)}`);
-    const data = await res.json();
-    setResults(data);
-  } catch (err) {
-    console.error('Search failed:', err);
-  } finally {
-    setLoading(false);
-  }
- };
+    if (!query.trim()) return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+      const res = await fetch(`${API_BASE}/api/prices?query=${encodeURIComponent(query)}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      });
+
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setResults(data);
+    } catch (err) {
+      console.error('Search failed:', err);
+      setError('Could not fetch results. Please try again.');
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles.page}>
@@ -45,9 +60,9 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-           <img src="/chainsaw.gif" alt="chainsaw" className={styles.gif} />
+          <img src="/chainsaw.gif" alt="chainsaw" className={styles.gif} />
           Sawprice Hunter
-		 </motion.h1>
+        </motion.h1>
 
         <p className={styles.subtitle}>
           A chainsaw price tracker for finding current values and deals.
@@ -56,9 +71,10 @@ export default function Home() {
         <motion.div className={styles.searchBar} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
           <input
             type="text"
-            placeholder="Search chainsaws, e.g. 'Husqvarna 372XP'"
+            placeholder="Search chainsaws e.g. 'Husqvarna 372XP'"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             className={styles.searchInput}
           />
           <motion.button
@@ -75,8 +91,12 @@ export default function Home() {
       <section className={styles.resultsSection}>
         {loading ? (
           <Loader />
-        ) : (
+        ) : error ? (
+          <p className={styles.errorMessage}>{error}</p>
+        ) : results.length > 0 ? (
           <ResultList results={results} />
+        ) : (
+          <p className={styles.placeholderText}>Try searching for a chainsaw above ⬆</p>
         )}
       </section>
 
