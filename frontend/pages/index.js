@@ -1,16 +1,19 @@
+// pages/index.js
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaSearch, FaFacebook, FaEnvelope } from 'react-icons/fa';
+import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
 import styles from '../styles/Home.module.scss';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
+import Donate from '../components/Donate';
 
 export default function Home() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showDonate, setShowDonate] = useState(false);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -123,6 +126,8 @@ export default function Home() {
         )}
       </section>
 
+      {showDonate && <Donate />}
+
       <motion.footer
         className={styles.footer}
         initial={{ opacity: 0, y: 20 }}
@@ -135,6 +140,34 @@ export default function Home() {
           <a href="#"><FaEnvelope /></a>
         </div>
       </motion.footer>
+
+      {/* Floating donate button */}
+      <motion.button
+        onClick={() => setShowDonate(!showDonate)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          background: '#000',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '50%',
+          width: '60px',
+          height: '60px',
+          fontSize: '1.2rem',
+          boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer'
+        }}
+        aria-label="Toggle Donate"
+      >
+        <FaDonate />
+      </motion.button>
     </div>
   );
 }
