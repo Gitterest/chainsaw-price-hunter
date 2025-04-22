@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
+import Head from 'next/head';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -14,6 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showDonate, setShowDonate] = useState(false);
+  const [pulse, setPulse] = useState(false);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -53,6 +55,10 @@ export default function Home() {
 
       const data = JSON.parse(text);
       setResults(data);
+      if (data && data.length > 0) {
+        setPulse(true);
+        setTimeout(() => setPulse(false), 800);
+      }
     } catch (err) {
       console.error('🚨 Fetch failed:', err.message || err);
       setError('Failed to load chainsaw listings. Try again later.');
@@ -74,16 +80,47 @@ export default function Home() {
       <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
         <HeroDecoration />
 
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          <img src="/chainsaw.gif" alt="chainsaw" className={styles.gif} />
-          Sawprice Hunter
-        </motion.h1>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+          <motion.img
+            src="/chainsaw.gif"
+            alt="chainsaw"
+            className={styles.gif}
+            initial={{ rotate: 0 }}
+            animate={pulse ? { scale: [1, 1.2, 1], rotate: [0, 20, -20, 0] } : { rotate: [0, 20, -20, 0], x: [0, -1, 1, 0], y: [0, 1, -1, 0] }}
+            transition={{ duration: pulse ? 0.6 : 1.2, repeat: pulse ? 0 : Infinity, ease: 'easeInOut' }}
+            style={{ display: 'inline-block', marginBottom: '0.75rem' }}
+          />
 
-        <p className={styles.subtitle}>
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            style={{ fontFamily: "'Bleeding Cowboys', cursive" }}
+          >
+            Sawprice Hunter
+          </motion.h1>
+
+          {pulse && (
+            <motion.div
+              className="chainsaw-sparks"
+              initial={{ opacity: 0, y: 10, scale: 0.8 }}
+              animate={{ opacity: [0.8, 0], y: -40, scale: 1 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              style={{
+                position: 'absolute',
+                bottom: '-10px',
+                left: '5%',
+                fontSize: '1.5rem',
+                color: '#facc15',
+                pointerEvents: 'none'
+              }}
+            >
+              ✨
+            </motion.div>
+          )}
+        </div>
+
+        <p className={styles.subtitle} style={{ marginTop: '1rem' }}>
           A chainsaw price tracker for finding current values and deals.
         </p>
 
@@ -107,7 +144,7 @@ export default function Home() {
             onClick={handleSearch}
             className={styles.searchButton}
           >
-            <FaSearch /> Search
+            <FaSearch /> 𝓢𝓮𝓪𝓻𝓬𝓱
           </motion.button>
         </motion.div>
       </section>
@@ -121,7 +158,7 @@ export default function Home() {
           <ResultList results={results} />
         ) : (
           <p className={styles.placeholderText}>
-            🔍 No chainsaws found. Try another search!
+            Driving a race car is like dancing with a chainsaw.
           </p>
         )}
       </section>
