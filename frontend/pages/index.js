@@ -11,6 +11,7 @@ import Head from 'next/head';
 
 export default function Home() {
   const [query, setQuery] = useState('');
+  const [selectedState, setSelectedState] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,7 +36,7 @@ export default function Home() {
     }
 
     try {
-      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}`;
+      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${selectedState ? `&state=${selectedState}` : ''}`;
       console.log('🔗 Fetching:', url);
 
       const res = await fetch(url, {
@@ -67,6 +68,14 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  const US_STATES = [
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+  ];
 
   return (
     <div className={styles.page}>
@@ -123,6 +132,24 @@ export default function Home() {
         <p className={styles.subtitle} style={{ marginTop: '1rem' }}>
           A chainsaw price tracker for finding current values and deals.
         </p>
+
+        <div style={{ margin: '1rem 0', display: 'flex', justifyContent: 'center' }}>
+          <select
+            value={selectedState}
+            onChange={(e) => setSelectedState(e.target.value)}
+            style={{
+              padding: '0.5rem 1rem',
+              borderRadius: '0.5rem',
+              border: '1px solid #ccc',
+              fontSize: '1rem'
+            }}
+          >
+            <option value="">All States</option>
+            {US_STATES.map(state => (
+              <option key={state} value={state}>{state}</option>
+            ))}
+          </select>
+        </div>
 
         <motion.div
           className={styles.searchBar}
