@@ -11,12 +11,18 @@ import Head from 'next/head';
 
 export default function Home() {
   const [query, setQuery] = useState('');
-  const [selectedState, setSelectedState] = useState('');
+  const [selectedState, setSelectedState] = useState('ALL');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showDonate, setShowDonate] = useState(false);
   const [pulse, setPulse] = useState(false);
+
+  const US_STATES = [
+    'ALL', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD',
+    'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  ];
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -28,15 +34,9 @@ export default function Home() {
         ? 'http://localhost:5000'
         : process.env.NEXT_PUBLIC_API_URL;
 
-    if (!API_BASE) {
-      console.error('❌ Missing NEXT_PUBLIC_API_URL. Aborting fetch.');
-      setError('API not configured properly. Please contact support.');
-      setLoading(false);
-      return;
-    }
-
     try {
-      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${selectedState ? `&state=${selectedState}` : ''}`;
+      const stateParam = selectedState !== 'ALL' ? `&state=${selectedState}` : '';
+      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${stateParam}`;
       console.log('🔗 Fetching:', url);
 
       const res = await fetch(url, {
@@ -69,94 +69,44 @@ export default function Home() {
     }
   };
 
-  const US_STATES = [
-    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
-    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
-    "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-    "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
-    "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-  ];
-
   return (
     <div className={styles.page}>
-      <motion.div
-        className={styles.background}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      />
+      <motion.div className={styles.background} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} />
 
       <section className={styles.hero} style={{ position: 'relative', overflow: 'hidden' }}>
         <HeroDecoration />
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <motion.img
             src="/chainsaw.gif"
             alt="chainsaw"
             className={styles.gif}
-            initial={{ rotate: 0 }}
             animate={pulse ? { scale: [1, 1.2, 1], rotate: [0, 20, -20, 0] } : { rotate: [0, 20, -20, 0], x: [0, -1, 1, 0], y: [0, 1, -1, 0] }}
             transition={{ duration: pulse ? 0.6 : 1.2, repeat: pulse ? 0 : Infinity, ease: 'easeInOut' }}
-            style={{ display: 'inline-block', marginBottom: '0.75rem' }}
+            style={{ marginBottom: '0.75rem' }}
           />
 
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            style={{ fontFamily: "'Bleeding Cowboys', cursive" }}
-          >
+          <motion.h1 style={{ fontFamily: "'Bleeding Cowboys', cursive" }} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}>
             Sawprice Hunter
           </motion.h1>
 
-          {pulse && (
-            <motion.div
-              className="chainsaw-sparks"
-              initial={{ opacity: 0, y: 10, scale: 0.8 }}
-              animate={{ opacity: [0.8, 0], y: -40, scale: 1 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '5%',
-                fontSize: '1.5rem',
-                color: '#facc15',
-                pointerEvents: 'none'
-              }}
-            >
-              ✨
-            </motion.div>
-          )}
-        </div>
+          <p className={styles.subtitle} style={{ marginTop: '1rem' }}>
+            A chainsaw price tracker for finding current values and deals.
+          </p>
 
-        <p className={styles.subtitle} style={{ marginTop: '1rem' }}>
-          A chainsaw price tracker for finding current values and deals.
-        </p>
-
-        <div style={{ margin: '1rem 0', display: 'flex', justifyContent: 'center' }}>
           <select
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
-            style={{
-              padding: '0.5rem 1rem',
-              borderRadius: '0.5rem',
-              border: '1px solid #ccc',
-              fontSize: '1rem'
-            }}
+            className={styles.dropdown}
+            style={{ marginTop: '1rem', padding: '0.5rem', fontSize: '1rem' }}
           >
-            <option value="">All States</option>
-            {US_STATES.map(state => (
-              <option key={state} value={state}>{state}</option>
+            {US_STATES.map((st) => (
+              <option key={st} value={st}>{st === 'ALL' ? 'All States' : st}</option>
             ))}
           </select>
         </div>
 
-        <motion.div
-          className={styles.searchBar}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
+        <motion.div className={styles.searchBar} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
           <input
             type="text"
             placeholder="Search chainsaws, e.g. 'Husqvarna 372XP'"
@@ -165,12 +115,7 @@ export default function Home() {
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             className={styles.searchInput}
           />
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleSearch}
-            className={styles.searchButton}
-          >
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleSearch} className={styles.searchButton}>
             <FaSearch /> 𝓢𝓮𝓪𝓻𝓬𝓱
           </motion.button>
         </motion.div>
@@ -184,20 +129,13 @@ export default function Home() {
         ) : results.length > 0 ? (
           <ResultList results={results} />
         ) : (
-          <p className={styles.placeholderText}>
-            Driving a race car is like dancing with a chainsaw.
-          </p>
+          <p className={styles.placeholderText}>Driving a race car is like dancing with a chainsaw.</p>
         )}
       </section>
 
       {showDonate && <Donate />}
 
-      <motion.footer
-        className={styles.footer}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-      >
+      <motion.footer className={styles.footer} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
         <p>© {new Date().getFullYear()} Sawprice Hunter | Built by the creators of the Fuck Saw</p>
         <div className={styles.socials}>
           <a href="#"><FaFacebook /></a>
@@ -205,7 +143,6 @@ export default function Home() {
         </div>
       </motion.footer>
 
-      {/* Floating donate button */}
       <motion.button
         onClick={() => setShowDonate(!showDonate)}
         whileHover={{ scale: 1.1 }}
