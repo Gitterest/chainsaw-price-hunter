@@ -1,5 +1,5 @@
-// pages/index.js - FULLY GOD-TIER VERSION
-import React, { useState } from 'react';
+// pages/index.js - FINAL GOD-TIER FETCH VERSION
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
 import styles from '../styles/Home.module.scss';
@@ -8,7 +8,6 @@ import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
 import Head from 'next/head';
-import statesCities from '../data/us_states_cities.json';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -19,7 +18,22 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [showDonate, setShowDonate] = useState(false);
   const [pulse, setPulse] = useState(false);
+  const [statesCities, setStatesCities] = useState({});
   const [availableCities, setAvailableCities] = useState([]);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const res = await fetch('/us_states_cities.json');
+        const data = await res.json();
+        setStatesCities(data);
+      } catch (error) {
+        console.error('Failed to fetch states/cities JSON:', error);
+      }
+    };
+
+    fetchCities();
+  }, []);
 
   const handleStateChange = (e) => {
     const state = e.target.value;
@@ -120,11 +134,11 @@ export default function Home() {
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
               className={styles.dropdown}
-              style={{ marginTop: '0.8rem', marginBottom: '1.5rem', padding: '0.5rem', fontSize: '1rem' }}
+              style={{ marginTop: '1rem', marginBottom: '1.5rem', padding: '0.5rem', fontSize: '1rem' }}
             >
               <option value="">Select City</option>
               {availableCities.map((city) => (
-		       <option key={city} value={city}>{city}</option> 
+                <option key={city} value={city}>{city}</option>
               ))}
             </select>
           )}
