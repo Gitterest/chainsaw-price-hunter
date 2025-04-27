@@ -120,11 +120,11 @@ export default function Home() {
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
               className={styles.dropdown}
-              style={{ marginTop: '1rem', padding: '0.5rem', fontSize: '1rem' }}
+              style={{ marginTop: '0.8rem', marginBottom: '1.5rem', padding: '0.5rem', fontSize: '1rem' }}
             >
               <option value="">Select City</option>
               {availableCities.map((city) => (
-                <option key={city} value={city}>{city}</option>
+		       <option key={city} value={city}>{city}</option> 
               ))}
             </select>
           )}
