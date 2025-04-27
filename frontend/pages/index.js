@@ -1,4 +1,4 @@
-// pages/index.js
+// pages/index.js - FULLY GOD-TIER VERSION
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
@@ -8,21 +8,29 @@ import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
 import Head from 'next/head';
+import statesCities from '../data/us_states_cities.json';
 
 export default function Home() {
   const [query, setQuery] = useState('');
-  const [selectedState, setSelectedState] = useState('ALL');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showDonate, setShowDonate] = useState(false);
   const [pulse, setPulse] = useState(false);
+  const [availableCities, setAvailableCities] = useState([]);
 
-  const US_STATES = [
-    'ALL', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD',
-    'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-  ];
+  const handleStateChange = (e) => {
+    const state = e.target.value;
+    setSelectedState(state);
+    setSelectedCity('');
+    if (state && statesCities[state]) {
+      setAvailableCities(statesCities[state]);
+    } else {
+      setAvailableCities([]);
+    }
+  };
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -35,8 +43,9 @@ export default function Home() {
         : process.env.NEXT_PUBLIC_API_URL;
 
     try {
-      const stateParam = selectedState !== 'ALL' ? `&state=${selectedState}` : '';
-      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${stateParam}`;
+      const stateParam = selectedState ? `&state=${encodeURIComponent(selectedState)}` : '';
+      const cityParam = selectedCity ? `&city=${encodeURIComponent(selectedCity)}` : '';
+      const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${stateParam}${cityParam}`;
       console.log('🔗 Fetching:', url);
 
       const res = await fetch(url, {
@@ -96,14 +105,29 @@ export default function Home() {
 
           <select
             value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
+            onChange={handleStateChange}
             className={styles.dropdown}
             style={{ marginTop: '1rem', padding: '0.5rem', fontSize: '1rem' }}
           >
-            {US_STATES.map((st) => (
-              <option key={st} value={st}>{st === 'ALL' ? 'All States' : st}</option>
+            <option value="">Select State</option>
+            {Object.keys(statesCities).map((state) => (
+              <option key={state} value={state}>{state}</option>
             ))}
           </select>
+
+          {availableCities.length > 0 && (
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+              className={styles.dropdown}
+              style={{ marginTop: '1rem', padding: '0.5rem', fontSize: '1rem' }}
+            >
+              <option value="">Select City</option>
+              {availableCities.map((city) => (
+                <option key={city} value={city}>{city}</option>
+              ))}
+            </select>
+          )}
         </div>
 
         <motion.div className={styles.searchBar} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
