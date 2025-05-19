@@ -9,7 +9,7 @@ import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
 import Head from 'next/head';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function Home() {
   const [query, setQuery] = useState('');

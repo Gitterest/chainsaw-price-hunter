@@ -6,13 +6,13 @@ export default async function handler(req, res) {
   }
 
   // Build external API URL from environment variable
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/+$/, '') || '';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, '') || '';
   const params = new URLSearchParams({ query });
   if (region) params.append('region', region);
-  if (city) params.append('city', city);
+  if (city)   params.append('city', city);
 
   try {
-    const apiRes = await fetch(`${API_BASE}/api/prices?${params.toString()}`);
+    const apiRes = await fetch(`${API_URL}/api/prices?${params.toString()}`);
     const data = await apiRes.json();
     return res.status(apiRes.status).json(data);
   } catch (err) {
