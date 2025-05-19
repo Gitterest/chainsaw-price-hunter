@@ -1,21 +1,22 @@
-import { fetchSawPrices } from '../../lib/scrape'
-
+// pages/api/prices.js – Proxy to external backend
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).end()
+  const { query, region, city } = req.query;
+  if (!query) {
+    return res.status(400).json({ error: 'Search query is required' });
   }
-  const { query, region } = req.query
-  if (!query || !region) {
-    return res.status(400).json({ error: 'Missing query or region' })
-  }
+
+  // Build external API URL from environment variable
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/+$/, '') || '';
+  const params = new URLSearchParams({ query });
+  if (region) params.append('region', region);
+  if (city) params.append('city', city);
+
   try {
-    const listings = await fetchSawPrices(query, region)
-    if (listings.length === 0) {
-      return res.status(404).json({ error: 'No results found' })
-    }
-    res.status(200).json({ listings })
+    const apiRes = await fetch(`${API_BASE}/api/prices?${params.toString()}`);
+    const data = await apiRes.json();
+    return res.status(apiRes.status).json(data);
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ error: 'Server error' })
+    console.error('Proxy error:', err);
+    return res.status(500).json({ error: 'Failed to fetch listings' });
   }
 }
