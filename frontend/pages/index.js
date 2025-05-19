@@ -1,18 +1,13 @@
 // pages/index.js - FINAL GOD-TIER FETCH VERSION
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
 import styles from '../styles/Home.module.scss';
-import styles from '../styles/Home.module.css';
-import styles from '../styles/Dashboard.module.scss';
-import styles from '../styles/styles.css';
-import styles from '../styles/Collapsible.module.css';
-import styles from '../styles/app.css';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import Head from 'next/head';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -24,27 +19,24 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    // Optionally autofocus search input
+  }, []);
+
   const handleSearch = async () => {
     if (!query) return;
     setLoading(true);
     setError('');
 
-    // FIXED: use "region" to match backend
-    const regionParam = selectedState
-      ? `&region=${encodeURIComponent(selectedState)}`
-      : '';
-    const cityParam = selectedCity
-      ? `&city=${encodeURIComponent(selectedCity)}`
-      : '';
-
-    const url = `${API_BASE}/api/prices?query=${encodeURIComponent(query)}${regionParam}${cityParam}`;
+    const regionParam = selectedState ? `&region=${encodeURIComponent(selectedState)}` : '';
+    const cityParam   = selectedCity  ? `&city=${encodeURIComponent(selectedCity)}` : '';
+    const url = `${API_URL}/api/prices?query=${encodeURIComponent(query)}${regionParam}${cityParam}`;
 
     try {
       const resp = await fetch(url);
       const data = await resp.json();
       if (!resp.ok) {
-        if (data.error) throw new Error(data.error);
-        else throw new Error(`Fetch failed: ${resp.status}`);
+        throw new Error(data.error || `Fetch failed: ${resp.status}`);
       }
       setResults(data.listings || []);
     } catch (err) {
@@ -56,17 +48,15 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    // Optionally, autofocus input or load defaults
-  }, []);
-
   return (
     <div className={styles.container}>
       <Head>
         <title>Sawprice Hunter</title>
         <meta name="description" content="A chainsaw price tracker for finding current values and deals." />
       </Head>
+
       <HeroDecoration />
+
       <main className={styles.main}>
         <h1 className={styles.title}>Sawprice Hunter</h1>
         <p className={styles.description}>A chainsaw price tracker for finding current values and deals.</p>
@@ -76,8 +66,11 @@ export default function Home() {
             <option value="">Select State</option>
             {/* ...state options... */}
           </select>
-
-          <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)} disabled={!selectedState}>
+          <select
+            value={selectedCity}
+            onChange={e => setSelectedCity(e.target.value)}
+            disabled={!selectedState}
+          >
             <option value="">Select City</option>
             {/* ...city options based on state... */}
           </select>
@@ -108,23 +101,18 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
+        <div className={styles.socials}>
+          <a href="https://facebook.com/yourpage" aria-label="Facebook"><FaFacebook /></a>
+          <a href="mailto:youremail@example.com" aria-label="Email"><FaEnvelope /></a>
+        </div>
         <Donate />
         <motion.button
           whileHover={{ scale: 1.1 }}
           style={{
-            position: 'fixed',
-            bottom: 20,
-            right: 20,
-            background: '#fff',
-            borderRadius: '50%',
-            width: 50,
-            height: 50,
-            boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
-            zIndex: 1000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer'
+            position: 'fixed', bottom: 20, right: 20,
+            background: '#fff', borderRadius: '50%', width: 50, height: 50,
+            boxShadow: '0 10px 20px rgba(0,0,0,0.2)', zIndex: 1000,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
           }}
           aria-label="Toggle Donate"
           onClick={() => {/* toggle donate modal */}}
