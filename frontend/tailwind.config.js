@@ -1,14 +1,22 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./styles/**/*.{css,scss}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./styles/**/*.{css,scss}"
   ],
   theme: {
     extend: {
-      colors: {
-        accent: "#007bff", // or whatever color you want
+      fontFamily: {
+        custom: ['BleedingCowboys', 'cursive']
       },
+      backgroundImage: {
+        'chainsaw': "url('/chainsawbackground.gif')"
+      },
+      colors: {
+        accent: "#007bff",
+      }
     },
   },
   plugins: [],

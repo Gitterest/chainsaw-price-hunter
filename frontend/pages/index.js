@@ -1,4 +1,4 @@
-// pages/index.js - FINAL GOD-TIER FETCH VERSION
+// pages/index.js - FINAL AXIOS-INTEGRATED VERSION
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
+import api from '@/utils/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -29,19 +30,14 @@ export default function Home() {
     setError('');
 
     const regionParam = selectedState ? `&region=${encodeURIComponent(selectedState)}` : '';
-    const cityParam   = selectedCity  ? `&city=${encodeURIComponent(selectedCity)}` : '';
-    const url = `${API_URL}/api/prices?query=${encodeURIComponent(query)}${regionParam}${cityParam}`;
+    const cityParam = selectedCity ? `&city=${encodeURIComponent(selectedCity)}` : '';
 
     try {
-      const resp = await fetch(url);
-      const data = await resp.json();
-      if (!resp.ok) {
-        throw new Error(data.error || `Fetch failed: ${resp.status}`);
-      }
+      const { data } = await api.get(`/api/prices?query=${encodeURIComponent(query)}${regionParam}${cityParam}`);
       setResults(data.listings || []);
     } catch (err) {
       console.error(err);
-      setError(err.message || 'Failed to load chainsaw listings. Try again later.');
+      setError(err.response?.data?.error || err.message || 'Failed to load chainsaw listings. Try again later.');
       setResults([]);
     } finally {
       setLoading(false);

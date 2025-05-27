@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Root variables for light and dark mode */
+@import './app.css';
+@import './styles.css';
+@import './Dashboard.module.scss';
+@import './Home.module.scss';
+@import './Collapsible.module.css';
+
+@font-face {
+  font-family: 'BleedingCowboys';
+  src: url('/fonts/BleedingCowboys.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -25,18 +37,21 @@ body {
   overflow-x: hidden;
   color: var(--foreground);
   background-color: var(--background);
-  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-family: 'BleedingCowboys', cursive;
   scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-image: url('/chainsawbackground.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 * {
-  @apply box-border p-0 m-0;
-}
-@font-face {
-  font-family: 'BleedingCowboys';
-  src: url('/public/fonts/BleedingCowboys.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 a {
@@ -53,34 +68,7 @@ button,
 input,
 textarea,
 a {
-  @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50;
-}
-
-.error-message {
-  color: var(--error);
-  @apply text-sm;
-}
-
-.success-message {
-  color: var(--accent);
-  @apply text-sm;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--accent);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: var(--background);
+  outline: none;
+  ring: 2px var(--accent);
+  ring-opacity: 0.5;
 }
