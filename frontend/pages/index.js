@@ -1,4 +1,4 @@
-// pages/index.js - FINAL AXIOS-INTEGRATED VERSION
+// pages/index.js - FINAL AXIOS-INTEGRATED VERSION (Relative Path Fix)
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
@@ -8,7 +8,7 @@ import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import api from '@/utils/api';
+import api from '../src/utils/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
