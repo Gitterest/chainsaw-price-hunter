@@ -4,8 +4,6 @@
 
 @import './app.css';
 @import './styles.css';
-@import './Dashboard.module.scss';
-@import './Home.module.scss';
 @import './Collapsible.module.css';
 
 @font-face {
