@@ -21,12 +21,10 @@ header h1 {
   animation: fadeInDown 1s ease-in-out;
 }
 
-/* Logo with rotation on hover */
+/* Logo (no background image) */
 .logo {
   width: 60px;
   height: 60px;
-  background-image: url('chainsaw-icon.png');
-  background-size: cover;
   margin: 10px auto;
   cursor: pointer;
   transition: transform 0.5s;
