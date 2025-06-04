@@ -33,9 +33,9 @@ export default function ResultList({ results }) {
       initial="hidden"
       animate="show"
     >
-      {results.map((r, idx) => (
+      {results.map((item, idx) => (
         <motion.div key={idx} variants={itemVariants}>
-          <ResultCard item={r} />
+          <ResultCard item={item} />
         </motion.div>
       ))}
     </motion.div>

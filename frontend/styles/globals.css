@@ -1,19 +1,18 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;700&display=swap');
 @import './app.css';
 @import './styles.css';
 @import './Collapsible.module.css';
 
-@font-face {
-  font-family: 'BleedingCowboys';
-  src: url('/fonts/BleedingCowboys.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
+/* Font variables */
 :root {
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-ui: 'Rajdhani', sans-serif;
+
   --background: #ffffff;
   --foreground: #171717;
   --accent: #007bff;
@@ -35,7 +34,7 @@ body {
   overflow-x: hidden;
   color: var(--foreground);
   background-color: var(--background);
-  font-family: 'BleedingCowboys', cursive;
+  font-family: var(--font-ui);
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
@@ -44,6 +43,10 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+h1, h2, h3, .title {
+  font-family: var(--font-display);
 }
 
 * {

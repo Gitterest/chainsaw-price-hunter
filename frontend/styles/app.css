@@ -1,3 +1,8 @@
+/* Base font setup */
+body, input, button {
+  font-family: 'Rajdhani', sans-serif;
+}
+
 /* Container and Background */
 .container {
   position: relative;
@@ -21,8 +26,10 @@
 }
 
 .header h1 {
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 60px;
   color: #f96c00;
+  letter-spacing: 1px;
   text-shadow: 3px 3px 10px black;
   animation: pulse 2s infinite;
 }
@@ -30,6 +37,7 @@
 .header p {
   font-size: 20px;
   color: #fff;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 /* Header Animation */
@@ -53,6 +61,7 @@ input[type="text"] {
   border-radius: 5px;
   border: none;
   font-size: 16px;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 button {
@@ -61,6 +70,7 @@ button {
   border: none;
   padding: 15px 25px;
   font-size: 16px;
+  font-family: 'Rajdhani', sans-serif;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s;
@@ -87,6 +97,7 @@ button:hover {
   text-align: center;
   padding: 20px;
   transition: transform 0.3s, box-shadow 0.3s;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .result-card:hover {
@@ -102,6 +113,8 @@ button:hover {
 .result-card h3 {
   font-size: 18px;
   color: #f96c00;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .result-card a {
@@ -112,6 +125,7 @@ button:hover {
   margin-top: 10px;
   display: inline-block;
   border-radius: 5px;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .result-card a:hover {
@@ -123,4 +137,5 @@ button:hover {
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
+  font-family: 'Rajdhani', sans-serif;
 }

@@ -1,11 +1,10 @@
 @use 'sass:color';
 
-// Base layout and typography
 .page {
   min-height: 100vh;
   background: radial-gradient(circle at top left, #0f0f0f, #080808);
   color: #f2f2f2;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Rajdhani', sans-serif;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -26,8 +25,10 @@
   max-width: 800px;
 
   h1 {
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 3.2rem;
-    font-weight: 600;
+    font-weight: 400;
+    letter-spacing: 1px;
     background: linear-gradient(90deg, #f87171, #facc15);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -52,6 +53,7 @@
 }
 
 .title {
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 3rem;
   margin-bottom: 0.5rem;
 }
@@ -77,6 +79,7 @@
     border-radius: 0.5rem;
     outline: none;
     min-width: 140px;
+    font-family: 'Rajdhani', sans-serif;
   }
 }
 
@@ -100,6 +103,7 @@
     border: none;
     outline: none;
     font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
   }
 
   button {
@@ -109,6 +113,7 @@
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
   }
 }
 
@@ -122,6 +127,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .error {
