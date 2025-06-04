@@ -99,7 +99,7 @@ export default function Donate() {
               cursor: 'pointer',
             }}
           >
-            {copied ? '\u2705 Copied!' : '\uD83D\uDCCB Copy Address'}
+            {copied ? 'Address copied!' : 'Copy Address'}
           </button>
         </motion.div>
       )}
