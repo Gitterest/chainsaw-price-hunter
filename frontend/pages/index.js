@@ -1,16 +1,29 @@
-// pages/index.js - FINAL AXIOS-INTEGRATED VERSION (Relative Path Fix)
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
+import { FaSearch, FaFacebook, FaEnvelope } from 'react-icons/fa';
 import styles from '../styles/Home.module.scss';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import api from '../src/utils/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const states = [
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+  "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+  "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+  "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+  "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+];
+
+const cityMap = {
+  California: ["Los Angeles", "San Diego", "San Francisco"],
+  Texas: ["Houston", "Dallas", "Austin"],
+  Indiana: ["Indianapolis", "Fort Wayne", "Lafayette"],
+};
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -20,24 +33,22 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    // Optionally autofocus search input
-  }, []);
+  const availableCities = cityMap[selectedState] || [];
 
   const handleSearch = async () => {
-    if (!query) return;
+    if (!query.trim()) return;
     setLoading(true);
     setError('');
 
-    const regionParam = selectedState ? `&region=${encodeURIComponent(selectedState)}` : '';
-    const cityParam = selectedCity ? `&city=${encodeURIComponent(selectedCity)}` : '';
-
     try {
-      const { data } = await api.get(`/api/prices?query=${encodeURIComponent(query)}${regionParam}${cityParam}`);
+      const url = `/api/prices?query=${encodeURIComponent(query)}&region=${encodeURIComponent(selectedState)}&city=${encodeURIComponent(selectedCity)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch results');
       setResults(data.listings || []);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.error || err.message || 'Failed to load chainsaw listings. Try again later.');
+      setError(err.message);
       setResults([]);
     } finally {
       setLoading(false);
@@ -60,15 +71,15 @@ export default function Home() {
         <div className={styles.filters}>
           <select value={selectedState} onChange={e => setSelectedState(e.target.value)}>
             <option value="">Select State</option>
-            {/* ...state options... */}
+            {states.map(state => <option key={state} value={state}>{state}</option>)}
           </select>
           <select
             value={selectedCity}
             onChange={e => setSelectedCity(e.target.value)}
-            disabled={!selectedState}
+            disabled={!availableCities.length}
           >
             <option value="">Select City</option>
-            {/* ...city options based on state... */}
+            {availableCities.map(city => <option key={city} value={city}>{city}</option>)}
           </select>
         </div>
 
@@ -93,7 +104,7 @@ export default function Home() {
 
         {loading && <Loader />}
         {error && <p className={styles.error}>{error}</p>}
-        {results.length > 0 && <ResultList listings={results} />}
+        {results.length > 0 && <ResultList results={results} />}
       </main>
 
       <footer className={styles.footer}>
@@ -102,19 +113,6 @@ export default function Home() {
           <a href="mailto:youremail@example.com" aria-label="Email"><FaEnvelope /></a>
         </div>
         <Donate />
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          style={{
-            position: 'fixed', bottom: 20, right: 20,
-            background: '#fff', borderRadius: '50%', width: 50, height: 50,
-            boxShadow: '0 10px 20px rgba(0,0,0,0.2)', zIndex: 1000,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
-          }}
-          aria-label="Toggle Donate"
-          onClick={() => {/* toggle donate modal */}}
-        >
-          <FaDonate />
-        </motion.button>
       </footer>
     </div>
   );

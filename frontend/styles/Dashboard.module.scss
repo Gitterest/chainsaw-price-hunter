@@ -195,3 +195,33 @@
 .cardLink:hover {
   text-decoration: underline;
 }
+
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  text-align: center;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.loaderText {
+  font-size: 1.2rem;
+  color: #f1f5f9;
+  display: flex;
+  gap: 0.15rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  font-weight: bold;
+  color: #3b82f6;
+}
