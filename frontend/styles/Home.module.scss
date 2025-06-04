@@ -1,12 +1,6 @@
 @use 'sass:color';
 
-@font-face {
-  font-family: 'Bleeding Cowboys';
-  src: url('/fonts/BleedingCowboys.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
+// Base layout and typography
 .page {
   min-height: 100vh;
   background: radial-gradient(circle at top left, #0f0f0f, #080808);
@@ -19,7 +13,7 @@
 }
 
 .background {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 20%, rgba(0, 157, 255, 0.07), transparent 70%),
               linear-gradient(to bottom, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0));
@@ -32,38 +26,57 @@
   max-width: 800px;
 
   h1 {
-    font-family: 'BleedingCowboys';
-    font-size: 3.8rem;
-    font-weight: normal;
+    font-size: 3.2rem;
+    font-weight: 600;
     background: linear-gradient(90deg, #f87171, #facc15);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: glow 2s ease-in-out infinite alternate;
-    text-shadow:
-      1px 1px 0 #4b3621,
-      2px 2px 0 #4b3621,
-      3px 3px 5px rgba(0, 0, 0, 0.5);
-  }
-
-  @keyframes glow {
-    0% {
-      text-shadow: 1px 1px 0 #4b3621, 2px 2px 0 #4b3621, 3px 3px 5px rgba(0, 0, 0, 0.5);
-      transform: scale(1);
-    }
-    50% {
-      text-shadow: 1px 1px 2px #ff9900, 2px 2px 4px #ff6600, 4px 4px 10px rgba(255, 102, 0, 0.6);
-      transform: scale(1.03);
-    }
-    100% {
-      text-shadow: 1px 1px 0 #4b3621, 2px 2px 0 #4b3621, 3px 3px 5px rgba(0, 0, 0, 0.5);
-      transform: scale(1);
-    }
   }
 
   .subtitle {
     color: #BCC6CC;
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 1.25rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  justify-content: center;
+
+  select {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    outline: none;
+    min-width: 140px;
   }
 }
 
@@ -74,10 +87,13 @@
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.8rem 1.2rem;
-  border-radius: 1.0rem;
-  gap: 1.0rem;
+  border-radius: 1rem;
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 2rem;
 
-  input {
+  input, select {
     flex: 1;
     background: transparent;
     color: white;
@@ -87,61 +103,57 @@
   }
 
   button {
-    background: #FF5F1F;
-    color: #fff;
+    background-color: #f97316;
+    color: white;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 0.5rem;
-    padding: 0.5rem 1.0rem;
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  button:hover {
-    background: #FF5F1F;
   }
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+.searchButton {
+  background-color: #f97316;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.results {
   width: 100%;
-  margin-top: 3rem;
-  padding: 0 1rem;
-  max-width: 1400px;
-}
-
-.loading {
-  font-style: italic;
-  color: #888;
+  max-width: 800px;
   margin-top: 1rem;
 }
 
 .footer {
   margin-top: auto;
+  padding-top: 2rem;
   text-align: center;
-  padding: 2rem 0;
-  font-size: 0.9rem;
-  color: #777;
+  opacity: 0.6;
+}
 
-  .socials {
-    margin-top: 0.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 1.25rem;
 
-    a {
-      color: #BCC6CC;
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: #BCC6CC;
-      }
+  a {
+    color: #ccc;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: #fff;
     }
   }
 }
