@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaDonate } from 'react-icons/fa';
 
-const Donate = () => {
+export default function Donate() {
   const [copied, setCopied] = useState(false);
   const [currency, setCurrency] = useState('btc');
   const [isOpen, setIsOpen] = useState(false);
@@ -99,7 +99,7 @@ const Donate = () => {
               cursor: 'pointer',
             }}
           >
-            {copied ? '✅ Copied!' : '📋 Copy Address'}
+            {copied ? '\u2705 Copied!' : '\uD83D\uDCCB Copy Address'}
           </button>
         </motion.div>
       )}
@@ -128,6 +128,4 @@ const Donate = () => {
       </motion.button>
     </>
   );
-};
-
-export default Donate;
+}
