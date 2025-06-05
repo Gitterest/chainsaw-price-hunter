@@ -9,20 +9,57 @@ import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
 
-const states = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-  "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-  "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-  "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-  "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-];
-
 const cityMap = {
-  California: ["Los Angeles", "San Diego", "San Francisco"],
+  Alabama: ["Birmingham", "Montgomery", "Mobile"],
+  Alaska: ["Anchorage", "Fairbanks", "Juneau"],
+  Arizona: ["Phoenix", "Tucson", "Mesa"],
+  Arkansas: ["Little Rock", "Fort Smith", "Fayetteville"],
+  California: ["Los Angeles", "San Francisco", "San Diego"],
+  Colorado: ["Denver", "Colorado Springs", "Aurora"],
+  Connecticut: ["Bridgeport", "New Haven", "Hartford"],
+  Delaware: ["Wilmington", "Dover", "Newark"],
+  Florida: ["Miami", "Orlando", "Tampa"],
+  Georgia: ["Atlanta", "Savannah", "Augusta"],
+  Hawaii: ["Honolulu", "Hilo", "Kailua"],
+  Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
+  Illinois: ["Chicago", "Springfield", "Peoria"],
+  Indiana: ["Indianapolis", "Fort Wayne", "Evansville"],
+  Iowa: ["Des Moines", "Cedar Rapids", "Davenport"],
+  Kansas: ["Wichita", "Topeka", "Overland Park"],
+  Kentucky: ["Louisville", "Lexington", "Bowling Green"],
+  Louisiana: ["New Orleans", "Baton Rouge", "Shreveport"],
+  Maine: ["Portland", "Augusta", "Bangor"],
+  Maryland: ["Baltimore", "Annapolis", "Frederick"],
+  Massachusetts: ["Boston", "Springfield", "Worcester"],
+  Michigan: ["Detroit", "Lansing", "Grand Rapids"],
+  Minnesota: ["Minneapolis", "Saint Paul", "Duluth"],
+  Mississippi: ["Jackson", "Biloxi", "Hattiesburg"],
+  Missouri: ["St. Louis", "Kansas City", "Springfield"],
+  Montana: ["Billings", "Missoula", "Bozeman"],
+  Nebraska: ["Omaha", "Lincoln", "Bellevue"],
+  Nevada: ["Las Vegas", "Reno", "Carson City"],
+  New Hampshire: ["Manchester", "Concord", "Nashua"],
+  New Jersey: ["Newark", "Jersey City", "Trenton"],
+  New Mexico: ["Albuquerque", "Santa Fe", "Las Cruces"],
+  New York: ["New York City", "Buffalo", "Rochester"],
+  North Carolina: ["Charlotte", "Raleigh", "Greensboro"],
+  North Dakota: ["Fargo", "Bismarck", "Grand Forks"],
+  Ohio: ["Columbus", "Cleveland", "Cincinnati"],
+  Oklahoma: ["Oklahoma City", "Tulsa", "Norman"],
+  Oregon: ["Portland", "Eugene", "Salem"],
+  Pennsylvania: ["Philadelphia", "Pittsburgh", "Harrisburg"],
+  Rhode Island: ["Providence", "Cranston", "Warwick"],
+  South Carolina: ["Charleston", "Columbia", "Greenville"],
+  South Dakota: ["Sioux Falls", "Rapid City", "Pierre"],
+  Tennessee: ["Nashville", "Memphis", "Knoxville"],
   Texas: ["Houston", "Dallas", "Austin"],
-  Indiana: ["Indianapolis", "Fort Wayne", "Lafayette"],
+  Utah: ["Salt Lake City", "Provo", "Ogden"],
+  Vermont: ["Burlington", "Montpelier", "Rutland"],
+  Virginia: ["Virginia Beach", "Richmond", "Norfolk"],
+  Washington: ["Seattle", "Spokane", "Tacoma"],
+  West Virginia: ["Charleston", "Morgantown", "Huntington"],
+  Wisconsin: ["Milwaukee", "Madison", "Green Bay"],
+  Wyoming: ["Cheyenne", "Casper", "Laramie"]
 };
 
 export default function Home() {
@@ -36,7 +73,11 @@ export default function Home() {
   const availableCities = cityMap[selectedState] || [];
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    if (!query.trim() || !selectedState || !selectedCity) {
+      setError("Please enter a search, select a state and a city.");
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -44,11 +85,12 @@ export default function Home() {
       const url = `/api/prices?query=${encodeURIComponent(query)}&region=${encodeURIComponent(selectedState)}&city=${encodeURIComponent(selectedCity)}`;
       const res = await fetch(url);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to fetch results');
-      setResults(data.listings || []);
+
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch listings');
+      setResults(Array.isArray(data.listings) ? data.listings : []);
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      setError(err.message || 'An unexpected error occurred.');
       setResults([]);
     } finally {
       setLoading(false);
@@ -71,7 +113,9 @@ export default function Home() {
         <div className={styles.filters}>
           <select value={selectedState} onChange={e => setSelectedState(e.target.value)}>
             <option value="">Select State</option>
-            {states.map(state => <option key={state} value={state}>{state}</option>)}
+            {Object.keys(cityMap).map(state => (
+              <option key={state} value={state}>{state}</option>
+            ))}
           </select>
           <select
             value={selectedCity}
@@ -79,7 +123,9 @@ export default function Home() {
             disabled={!availableCities.length}
           >
             <option value="">Select City</option>
-            {availableCities.map(city => <option key={city} value={city}>{city}</option>)}
+            {availableCities.map(city => (
+              <option key={city} value={city}>{city}</option>
+            ))}
           </select>
         </div>
 
