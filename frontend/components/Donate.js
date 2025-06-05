@@ -17,8 +17,12 @@ export default function Donate() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // ✅ Correct template literal for QR data generation
+  const qrData = currency === 'btc'
+    ? `bitcoin:${btcAddress}`
+    : `monero:${xmrAddress}`;
+
   const address = currency === 'btc' ? btcAddress : xmrAddress;
-  const qrData = currency === 'btc' ? \`bitcoin:\${btcAddress}\` : \`monero:\${xmrAddress}\`;
 
   return (
     <>
@@ -77,8 +81,8 @@ export default function Donate() {
           </div>
 
           <img
-            src={\`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\${qrData}\`}
-            alt={\`\${currency.toUpperCase()} QR Code\`}
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`}
+            alt={`${currency.toUpperCase()} QR Code`}
             style={{ margin: '0 auto 1rem', borderRadius: '0.5rem' }}
           />
 
