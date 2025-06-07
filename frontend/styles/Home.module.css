@@ -105,6 +105,9 @@
   color: #ccc;
 }
 
+# Add detailed matching CSS for contact.js components into Home.module.css
+
+contact_styles = """
 /* 📬 Contact Page Styling */
 
 .contactForm {
@@ -182,4 +185,3 @@
   .resultCard {
     background-color: #1e1e1e;
   }
-}
