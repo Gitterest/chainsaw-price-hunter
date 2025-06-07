@@ -105,10 +105,6 @@
   color: #ccc;
 }
 
-# Add detailed matching CSS for contact.js components into Home.module.css
-
-contact_styles = """
-/* 📬 Contact Page Styling */
 
 .contactForm {
   background: rgba(255, 255, 255, 0.04);
@@ -178,10 +174,10 @@ contact_styles = """
 }
 
 @media (prefers-color-scheme: dark) {
-  .container {
+.container {
     background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
   }
 
-  .resultCard {
+.resultCard {
     background-color: #1e1e1e;
   }
