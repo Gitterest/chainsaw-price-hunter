@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaDonate } from 'react-icons/fa';
 
-export default function Donate() {
+function Donate() {
   const [copied, setCopied] = useState(false);
   const [currency, setCurrency] = useState('btc');
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,6 @@ export default function Donate() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // ✅ Correct template literal for QR data generation
   const qrData = currency === 'btc'
     ? `bitcoin:${btcAddress}`
     : `monero:${xmrAddress}`;
@@ -132,3 +131,5 @@ export default function Donate() {
     </>
   );
 }
+
+export default Donate;
