@@ -1,15 +1,24 @@
-// 🔧 Fixed version of pages/index.js
-// This assumes previous JSX structure based on your layout
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import { FaSearch, FaFacebook, FaEnvelope, FaDonate } from 'react-icons/fa';
-import styles from '../styles/Home.module.css';
+import { FaSearch, FaFacebook, FaEnvelope } from 'react-icons/fa';
+import styles from '../styles/Home.module.scss';
 import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import api from '../src/utils/api';
+import API from '../utils/api';
+
+const cityMap = {
+  California: ["Los Angeles", "San Francisco", "San Diego"],
+  Texas: ["Houston", "Dallas", "Austin"],
+  New York: ["New York City", "Buffalo", "Rochester"],
+  Florida: ["Miami", "Orlando", "Tampa"],
+  Washington: ["Seattle", "Spokane", "Tacoma"],
+  Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
+  Indiana: ["Indianapolis", "Fort Wayne", "Evansville"]
+  // Add more states/cities as needed
+};
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -19,16 +28,31 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const availableCities = cityMap[selectedState] || [];
+
   const handleSearch = async () => {
-    if (!query) return;
+    if (!query.trim() || !selectedState || !selectedCity) {
+      setError("Please enter a search, select a state and a city.");
+      return;
+    }
+
     setLoading(true);
     setError('');
+
     try {
-      const { data } = await api.get(`/api/prices?query=${encodeURIComponent(query)}`);
-      setResults(data.listings || []);
+      const res = await API.get('/prices', {
+        params: {
+          query,
+          region: selectedState,
+          city: selectedCity
+        }
+      });
+
+      setResults(res.data.listings || []);
     } catch (err) {
-      console.error(err);
-      setError('Failed to fetch data');
+      console.error('Search error:', err);
+      setError(err?.response?.data?.error || 'Failed to fetch data');
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -38,25 +62,49 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>Sawprice Hunter</title>
-        <meta name="description" content="Track chainsaw prices from multiple sources" />
+        <meta name="description" content="A chainsaw price tracker for finding current values and deals." />
       </Head>
+
       <HeroDecoration />
+
       <main className={styles.main}>
         <h1 className={styles.title}>Sawprice Hunter</h1>
         <p className={styles.description}>Chainsaw pricing across major platforms</p>
+
+        <div className={styles.filters}>
+          <select value={selectedState} onChange={e => setSelectedState(e.target.value)}>
+            <option value="">Select State</option>
+            {Object.keys(cityMap).map(state => (
+              <option key={state} value={state}>{state}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedCity}
+            onChange={e => setSelectedCity(e.target.value)}
+            disabled={!availableCities.length}
+          >
+            <option value="">Select City</option>
+            {availableCities.map(city => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
+        </div>
 
         <div className={styles.searchBar}>
           <input
             type="text"
             placeholder="e.g. husqvarna chainsaw"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={e => setQuery(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
           />
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.searchButton}
             onClick={handleSearch}
+            aria-label="Search"
           >
             <FaSearch /> Search
           </motion.button>
@@ -64,28 +112,19 @@ export default function Home() {
 
         {loading && <Loader />}
         {error && <p className={styles.error}>{error}</p>}
-        {results.length > 0 && <ResultList listings={results} />}
+        {results.length > 0 && <ResultList results={results} />}
       </main>
 
       <footer className={styles.footer}>
         <div className={styles.socials}>
-          <a href="https://facebook.com" aria-label="Facebook"><FaFacebook /></a>
-          <a href="mailto:you@example.com" aria-label="Email"><FaEnvelope /></a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+            <FaFacebook />
+          </a>
+          <a href="mailto:contact@sawpricehunter.com">
+            <FaEnvelope />
+          </a>
         </div>
         <Donate />
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          style={{
-            position: 'fixed', bottom: 20, right: 20,
-            background: '#fff', borderRadius: '50%', width: 50, height: 50,
-            boxShadow: '0 10px 20px rgba(0,0,0,0.2)', zIndex: 1000,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
-          }}
-          aria-label="Donate"
-          onClick={() => {}}
-        >
-          <FaDonate />
-        </motion.button>
       </footer>
     </div>
   );
