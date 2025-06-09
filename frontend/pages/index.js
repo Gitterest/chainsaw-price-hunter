@@ -17,7 +17,6 @@ const cityMap = {
   Washington: ["Seattle", "Spokane", "Tacoma"],
   Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
   Indiana: ["Indianapolis", "Fort Wayne", "Evansville"]
-  // Add more states/cities as needed
 };
 
 export default function Home() {
