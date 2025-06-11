@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://sawprice-hunter-backend-production.up.railway.app/api/scraper',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5000/api',
   withCredentials: true
 });
 
