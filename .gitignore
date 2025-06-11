@@ -1,18 +1,13 @@
-<<<<<<< HEAD
-# Node dependencies
-=======
-# ─────────────────────
-# Node.js Dependencies
-# ─────────────────────
->>>>>>> 0227a6536bc3d9e0fa6ccf9dc65e331aaa322d53
+# Node.js dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
+pnpm-debug.log*
 
 # Environment variables
 .env
+.env.*          # .env.local, .env.production, etc.
 
 # Build output
 dist/
@@ -28,6 +23,7 @@ logs
 # OS junk
 .DS_Store
 Thumbs.db
+*.swp
 
 # Puppeteer/Chrome user data
 fb-session/
@@ -41,54 +37,20 @@ fb-session/
 # Docker artifacts
 *.local
 docker-compose.override.yml
-=======
-pnpm-debug.log*
 
-# ─────────────────────
-# Next.js / React Build
-# ─────────────────────
-.next/
-out/
-build/
-
-# ─────────────────────
 # Testing / Coverage
-# ─────────────────────
 coverage/
 
-# ─────────────────────
-# Environment Files
-# ─────────────────────
-.env
-.env.*          # .env.local, .env.production, etc.
-
-# ─────────────────────
-# OS / Editor Junk
-# ─────────────────────
-.DS_Store
-Thumbs.db
-*.swp
-
-# ─────────────────────
 # Typescript
-# ─────────────────────
 *.tsbuildinfo
 
-# ─────────────────────
 # Misc Files
-# ─────────────────────
 *.pem
-*.log
 
-# ─────────────────────
 # Vercel / Netlify
-# ─────────────────────
 .vercel/
 .netlify/
 
-# ─────────────────────
 # Local tooling / IDE
-# ─────────────────────
 .vscode/
 .idea/
->>>>>>> 0227a6536bc3d9e0fa6ccf9dc65e331aaa322d53
