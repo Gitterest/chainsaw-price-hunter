@@ -7,12 +7,13 @@ import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import API from '../utils/api';
+import EasterEgg from '../components/EasterEgg';
+import API from '../src/utils/api';
 
 const cityMap = {
   California: ["Los Angeles", "San Francisco", "San Diego"],
   Texas: ["Houston", "Dallas", "Austin"],
-  New York: ["New York City", "Buffalo", "Rochester"],
+  "New York": ["New York City", "Buffalo", "Rochester"],
   Florida: ["Miami", "Orlando", "Tampa"],
   Washington: ["Seattle", "Spokane", "Tacoma"],
   Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
@@ -65,6 +66,7 @@ export default function Home() {
       </Head>
 
       <HeroDecoration />
+      <EasterEgg />
 
       <main className={styles.main}>
         <h1 className={styles.title}>Sawprice Hunter</h1>
