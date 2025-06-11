@@ -83,12 +83,18 @@
   input {
     flex: 1;
     background: #1e1e1e;
-    color: #fff;
+    color: #0ff;
     border: 1px solid #333;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     font-size: 1rem;
     font-family: 'Rajdhani', sans-serif;
+    caret-color: #0ff;
+    animation: neonPulse 2s ease-in-out infinite;
+
+    &::placeholder {
+      color: #ccc;
+    }
   }
 
   button {
@@ -143,5 +149,14 @@
     &:hover {
       color: #fff;
     }
+  }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 0 0 4px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+  }
+  50% {
+    text-shadow: 0 0 6px #0ff, 0 0 14px #0ff, 0 0 24px #0ff;
   }
 }

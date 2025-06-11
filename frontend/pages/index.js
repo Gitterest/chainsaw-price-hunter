@@ -7,12 +7,14 @@ import Loader from '../components/Loader';
 import ResultList from '../components/ResultList';
 import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
-import API from '../utils/api';
+import EasterEgg from '../components/EasterEgg';
+import ChainsawBackground from '../components/ChainsawBackground';
+import API from '../src/utils/api';
 
 const cityMap = {
   California: ["Los Angeles", "San Francisco", "San Diego"],
   Texas: ["Houston", "Dallas", "Austin"],
-  New York: ["New York City", "Buffalo", "Rochester"],
+  "New York": ["New York City", "Buffalo", "Rochester"],
   Florida: ["Miami", "Orlando", "Tampa"],
   Washington: ["Seattle", "Spokane", "Tacoma"],
   Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
@@ -65,6 +67,8 @@ export default function Home() {
       </Head>
 
       <HeroDecoration />
+      <EasterEgg />
+      <ChainsawBackground />
 
       <main className={styles.main}>
         <h1 className={styles.title}>Sawprice Hunter</h1>
@@ -90,24 +94,29 @@ export default function Home() {
           </select>
         </div>
 
-        <div className={styles.searchBar}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+          className={styles.searchBar}
+        >
           <input
             type="text"
             placeholder="e.g. husqvarna chainsaw"
             value={query}
-            onChange={e => setQuery(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+            onChange={(e) => setQuery(e.target.value)}
           />
           <motion.button
+            type="submit"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={styles.searchButton}
-            onClick={handleSearch}
             aria-label="Search"
           >
             <FaSearch /> Search
           </motion.button>
-        </div>
+        </form>
 
         {loading && <Loader />}
         {error && <p className={styles.error}>{error}</p>}

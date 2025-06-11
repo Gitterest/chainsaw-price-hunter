@@ -33,3 +33,8 @@ npm run dev
 cd frontend-mobile
 npm install
 npx expo start
+```
+
+## 🔍 Hidden Fun
+
+Try entering the classic Konami code on the homepage for a small surprise.
