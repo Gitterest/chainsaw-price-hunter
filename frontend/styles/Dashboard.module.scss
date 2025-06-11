@@ -51,9 +51,11 @@
   border-radius: 8px;
   border: 1px solid #334155;
   background: #1e293b;
-  color: #f8fafc;
+  color: #0ff;
   width: 300px;
   transition: border-color 0.2s;
+  caret-color: #0ff;
+  animation: neonPulse 2s ease-in-out infinite;
 }
 
 .searchInput:focus {
@@ -193,6 +195,15 @@
 
 .cardLink:hover {
   text-decoration: underline;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 0 0 4px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+  }
+  50% {
+    text-shadow: 0 0 6px #0ff, 0 0 14px #0ff, 0 0 24px #0ff;
+  }
 }
 
 .loaderContainer {

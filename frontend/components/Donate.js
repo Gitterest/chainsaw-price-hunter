@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaDonate } from 'react-icons/fa';
 
@@ -6,6 +6,16 @@ function Donate() {
   const [copied, setCopied] = useState(false);
   const [currency, setCurrency] = useState('btc');
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const btcAddress = 'bc1q2urpq80ttg7qmk5thheku4upjvsuwg6z8wjedm';
   const xmrAddress = '8AXgixS8eYa13vczPAnZyzDNuzXqr92x6bMcCWM25fv9g2EfFvt4NMvenJuQyqBvKHPzp5fcxVRz3MJGrDovAZB88YAzcWX';
@@ -26,23 +36,50 @@ function Donate() {
   return (
     <>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+        <div
+          onClick={() => setIsOpen(false)}
           style={{
-            background: 'rgba(255, 255, 255, 0.75)',
-            borderRadius: '1.25rem',
-            padding: '2rem',
-            maxWidth: '480px',
-            margin: '2rem auto',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-            textAlign: 'center',
-            backdropFilter: 'blur(8px)',
-            position: 'relative',
-            zIndex: 10
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999
           }}
         >
+          <motion.div
+            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            style={{
+              background: 'rgba(255, 255, 255, 0.85)',
+              borderRadius: '1.25rem',
+              padding: '2rem',
+              maxWidth: '480px',
+              width: '90%',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+              textAlign: 'center',
+              backdropFilter: 'blur(8px)',
+              position: 'relative'
+            }}
+          >
+            <button
+              onClick={() => setIsOpen(false)}
+              style={{
+                position: 'absolute',
+                top: '0.5rem',
+              right: '0.5rem',
+              background: 'transparent',
+              border: 'none',
+              fontSize: '1.25rem',
+              cursor: 'pointer'
+            }}
+            aria-label="Close"
+          >
+            &times;
+          </button>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
             Support Sawprice Hunter
           </h2>
@@ -103,7 +140,8 @@ function Donate() {
           >
             {copied ? 'Address copied!' : 'Copy Address'}
           </button>
-        </motion.div>
+          </motion.div>
+        </div>
       )}
 
       <motion.button

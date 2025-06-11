@@ -1,0 +1,56 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 40vw;
+  max-width: 600px;
+  pointer-events: none;
+  opacity: 0.4;
+  filter: drop-shadow(0 0 6px #0ff);
+  animation: glow 3s ease-in-out infinite;
+  z-index: 0;
+}
+
+.chainsaw {
+  width: 100%;
+  height: auto;
+}
+
+.body {
+  fill: none;
+  stroke: #0ff;
+  stroke-width: 4;
+}
+
+.blade {
+  fill: none;
+  stroke: #0ff;
+  stroke-width: 4;
+}
+
+.chain {
+  fill: none;
+  stroke: #0ff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 12 16;
+  animation: moveChain 1s linear infinite;
+}
+
+@keyframes moveChain {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px #0ff) drop-shadow(0 0 6px #0ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 4px #0ff) drop-shadow(0 0 12px #0ff);
+  }
+}
