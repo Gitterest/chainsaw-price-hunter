@@ -22,7 +22,7 @@ Multi-platform application that scrapes chainsaw prices from sources like Facebo
 # Backend
 cd backend
 npm install
-node server.js
+npm start
 
 # Frontend
 cd frontend
@@ -33,6 +33,12 @@ npm run dev
 cd frontend-mobile
 npm install
 npx expo start
+```
+
+Create a `.env.local` file in `frontend` to point the UI at your backend:
+
+```
+NEXT_PUBLIC_API_BASE=http://localhost:5000/api
 ```
 
 ## 🔍 Hidden Fun
