@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaDonate } from 'react-icons/fa';
 
@@ -6,6 +6,16 @@ function Donate() {
   const [copied, setCopied] = useState(false);
   const [currency, setCurrency] = useState('btc');
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const btcAddress = 'bc1q2urpq80ttg7qmk5thheku4upjvsuwg6z8wjedm';
   const xmrAddress = '8AXgixS8eYa13vczPAnZyzDNuzXqr92x6bMcCWM25fv9g2EfFvt4NMvenJuQyqBvKHPzp5fcxVRz3MJGrDovAZB88YAzcWX';
@@ -43,6 +53,21 @@ function Donate() {
             zIndex: 10
           }}
         >
+          <button
+            onClick={() => setIsOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '0.5rem',
+              right: '0.5rem',
+              background: 'transparent',
+              border: 'none',
+              fontSize: '1.25rem',
+              cursor: 'pointer'
+            }}
+            aria-label="Close"
+          >
+            &times;
+          </button>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
             Support Sawprice Hunter
           </h2>
