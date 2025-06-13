@@ -9,11 +9,11 @@ export default function ResultCard({ item }) {
     <div className={styles.resultCard}>
       <div className={styles.cardImage}>
         <Image
-          src={image || '/fallback.jpg'}
+          src={image || '/chainsaw.gif'}
           alt={title || 'Chainsaw listing'}
           width={300}
           height={200}
-          objectFit="cover"
+          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className={styles.cardBody}>

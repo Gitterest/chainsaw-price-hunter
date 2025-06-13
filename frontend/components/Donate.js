@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaDonate } from 'react-icons/fa';
+import Image from 'next/image';
 
 function Donate() {
   const [copied, setCopied] = useState(false);
@@ -116,9 +117,12 @@ function Donate() {
             </button>
           </div>
 
-          <img
+          <Image
             src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`}
             alt={`${currency.toUpperCase()} QR Code`}
+            width={150}
+            height={150}
+            unoptimized
             style={{ margin: '0 auto 1rem', borderRadius: '0.5rem' }}
           />
 
