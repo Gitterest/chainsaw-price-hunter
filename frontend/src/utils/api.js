@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5000/api',
-  withCredentials: true
+  baseURL:
+    process.env.NEXT_PUBLIC_API_BASE ||
+    'https://sawprice-hunter-backend-production.up.railway.app/api',
+  withCredentials: true,
 });
 
 export default API;
