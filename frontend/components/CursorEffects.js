@@ -10,6 +10,17 @@ export default function CursorEffects() {
       color: ['#FF5C1F', '#FF9F1C', '#FFDC00', '#00FFB2', '#00CFFF']
     });
 
+    const cursor = document.createElement('div');
+    cursor.id = 'color-cursor';
+    document.body.appendChild(cursor);
+
+    const move = (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    };
+
+    window.addEventListener('mousemove', move);
+
     const enhanceGlow = () => {
       const canvas = document.querySelector('canvas');
       if (!canvas) return;
@@ -26,6 +37,8 @@ export default function CursorEffects() {
     setTimeout(enhanceGlow, 200);
 
     return () => {
+      window.removeEventListener('mousemove', move);
+      cursor.remove();
       if (effect?.destroy) effect.destroy();
     };
   }, []);
