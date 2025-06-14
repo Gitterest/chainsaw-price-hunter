@@ -9,6 +9,7 @@ import HeroDecoration from '../components/HeroDecoration';
 import Donate from '../components/Donate';
 import EasterEgg from '../components/EasterEgg';
 import ChainsawBackground from '../components/ChainsawBackground';
+import InteractiveChainsaw from '../components/InteractiveChainsaw';
 import API from '../src/utils/api';
 
 const cityMap = {
@@ -69,6 +70,7 @@ export default function Home() {
       <HeroDecoration />
       <EasterEgg />
       <ChainsawBackground />
+      <InteractiveChainsaw />
 
       <main className={styles.main}>
         <h1 className={styles.title}>Sawprice Hunter</h1>
