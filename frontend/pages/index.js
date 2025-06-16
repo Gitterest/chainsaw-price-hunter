@@ -42,7 +42,7 @@ export default function Home() {
     setError('');
 
     try {
-      const res = await API.get('/prices', {
+      const res = await API.get('/api/prices', {
         params: {
           query,
           region: selectedState,
