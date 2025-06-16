@@ -42,7 +42,7 @@ Create a `.env.local` file in `frontend` to point the UI at your backend:
 NEXT_PUBLIC_API_BASE=http://localhost:5000/api
 
 # Production example
-# NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app/api
+# NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
 ```
 
 ## 🔍 Hidden Fun
