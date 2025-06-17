@@ -28,6 +28,7 @@ npm start
 cd frontend
 npm install
 npm run dev
+# If `next` is not found, ensure dependencies are installed with `npm install`
 
 # Mobile (requires Expo CLI)
 cd frontend-mobile
@@ -35,14 +36,15 @@ npm install
 npx expo start
 ```
 
-Create a `.env.local` file in `frontend` to point the UI at your backend:
+Copy `frontend/.env.example` to `frontend/.env.local` and point the UI at your backend:
 
 ```
 # Local development
-NEXT_PUBLIC_API_BASE=http://localhost:5000/api
+NEXT_PUBLIC_API_BASE=http://localhost:5000
 
 # Production example
-# NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app/api
+# NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
+# (omit the trailing `/api`)
 ```
 
 ## 🔍 Hidden Fun

@@ -2,9 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
 # or
 yarn dev
@@ -12,6 +13,16 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+
+### Environment variables
+
+Copy `.env.example` to `.env.local` and adjust `NEXT_PUBLIC_API_BASE` if needed:
+
+```bash
+cp .env.example .env.local
+# For production deployments, use your backend URL
+NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
