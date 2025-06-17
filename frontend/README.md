@@ -14,6 +14,16 @@ pnpm dev
 bun dev
 ```
 
+### Environment variables
+
+Copy `.env.example` to `.env.local` and adjust `NEXT_PUBLIC_API_BASE` if needed:
+
+```bash
+cp .env.example .env.local
+# For production deployments, use your backend URL
+NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
