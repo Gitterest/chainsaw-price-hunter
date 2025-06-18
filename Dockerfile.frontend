@@ -1,5 +1,4 @@
-# Completely clean Dockerfile.frontend that ONLY builds the frontend web app
-final_clean_dockerfile_frontend = """
+# Clean Dockerfile for building and serving the Next.js frontend
 # -------- Stage 1: Build Next.js Web Frontend --------
 FROM node:20 AS builder
 
@@ -27,10 +26,3 @@ COPY --from=builder /app/public /usr/share/nginx/html
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
-"""
-
-# Write it to the actual Dockerfile.frontend path
-with open(docker_frontend_path, "w") as f:
-    f.write(final_clean_dockerfile_frontend.strip())
-
-"✅ Final Dockerfile.frontend written — clean, scoped, and safe to deploy."
