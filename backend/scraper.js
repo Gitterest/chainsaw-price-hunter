@@ -75,10 +75,10 @@ async function launchStealthBrowser() {
 // Fallback data for when scraping fails
 const fallbackData = [
   {
-    title: "Husqvarna 455 Rancher Chainsaw",
-    price: "$399.99",
+    title: "Husqvarna 562 XP G MARK II",
+    price: "$1009.99",
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop",
-    url: "https://www.husqvarna.com/us/chainsaws/455-rancher/",
+    url: "https://www.husqvarna.com/us/chainsaws/562xp-g-mark-ii/",
     source: "Fallback"
   },
   {
@@ -106,7 +106,7 @@ const fallbackData = [
     title: "Poulan Pro PR5020 Chainsaw",
     price: "$199.99",
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop",
-    url: "https://www.poulanpro.com/chain-saws/pr5020",
+    url: "https://www.poulanpro.com/products/chainsaws/chainsaw-pr5020",
     source: "Fallback"
   }
 ];
