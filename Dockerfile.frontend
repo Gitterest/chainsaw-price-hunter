@@ -21,6 +21,7 @@ FROM nginx:alpine
 # Copy the frontend build output
 COPY --from=builder /app/.next /usr/share/nginx/html
 COPY --from=builder /app/public /usr/share/nginx/html
+COPY --from=builder /app/next.config.js ./
 
 # Expose web port
 EXPOSE 80
