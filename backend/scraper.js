@@ -20,6 +20,21 @@ const launchOptions = {
   ]
 };
 
+// Add proxy support
+const proxyUrl = process.env.PROXY_URL;
+if (proxyUrl) {
+  console.log('Using proxy:', proxyUrl);
+  launchOptions.args.push(`--proxy-server=${proxyUrl}`);
+}
+
+// SCRAPING API INTEGRATION
+// If SCRAPING_API_URL is set, use it as the proxy for all scrapers
+const scrapingApiUrl = process.env.SCRAPING_API_URL;
+if (scrapingApiUrl) {
+  console.log('Using scraping API as proxy:', scrapingApiUrl);
+  process.env.PROXY_URL = scrapingApiUrl;
+}
+
 // User-agent rotation for anti-bot evasion
 function getUserAgent() {
   return randomUseragent.getRandom() ||
@@ -159,11 +174,23 @@ async function scrapeFacebookMarketplace(query = 'chainsaw') {
         }
       }
     } catch (error) {
-      console.error('Facebook scraping failed:', error.message);
+      console.error('Facebook scraping failed:', error.message, error.stack);
+      if (page) {
+        try {
+          const content = await page.content();
+          console.error('Facebook page HTML (first 1000 chars):', content.slice(0, 1000));
+        } catch (e) {
+          console.error('Failed to get Facebook page HTML:', e.message);
+        }
+      }
     } finally {
       if (browser) await browser.close();
     }
     
+    if (!listings.length) {
+      console.log('Facebook: No listings found, returning fallback data');
+      return { listings: fallbackData };
+    }
     console.log(`Facebook scraping completed with ${listings.length} results`);
     return { listings };
   }, 25000); // 25 second timeout for Facebook
@@ -237,11 +264,23 @@ async function scrapeOfferUp(query = 'chainsaw') {
         }
       }
     } catch (error) {
-      console.error('OfferUp scraping failed:', error.message);
+      console.error('OfferUp scraping failed:', error.message, error.stack);
+      if (page) {
+        try {
+          const content = await page.content();
+          console.error('OfferUp page HTML (first 1000 chars):', content.slice(0, 1000));
+        } catch (e) {
+          console.error('Failed to get OfferUp page HTML:', e.message);
+        }
+      }
     } finally {
       if (browser) await browser.close();
     }
     
+    if (!listings.length) {
+      console.log('OfferUp: No listings found, returning fallback data');
+      return { listings: fallbackData };
+    }
     console.log(`OfferUp scraping completed with ${listings.length} results`);
     return { listings };
   }, 20000); // 20 second timeout for OfferUp
@@ -315,11 +354,23 @@ async function scrapeMercari(query = 'chainsaw') {
         }
       }
     } catch (error) {
-      console.error('Mercari scraping failed:', error.message);
+      console.error('Mercari scraping failed:', error.message, error.stack);
+      if (page) {
+        try {
+          const content = await page.content();
+          console.error('Mercari page HTML (first 1000 chars):', content.slice(0, 1000));
+        } catch (e) {
+          console.error('Failed to get Mercari page HTML:', e.message);
+        }
+      }
     } finally {
       if (browser) await browser.close();
     }
     
+    if (!listings.length) {
+      console.log('Mercari: No listings found, returning fallback data');
+      return { listings: fallbackData };
+    }
     console.log(`Mercari scraping completed with ${listings.length} results`);
     return { listings };
   }, 20000); // 20 second timeout for Mercari
