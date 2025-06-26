@@ -8,16 +8,29 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Allow overriding the frontend URL via env variable for local development
+// CORS configuration - allow both development and production origins
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://chainsaw-price-hunter-production.up.railway.app',
+  'https://sawprice-hunter-frontend-production.up.railway.app'
+];
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 
-    (isProduction ? 
-      ['https://chainsaw-price-hunter-production.up.railway.app', 'https://sawprice-hunter-frontend-production.up.railway.app'] :
-      'http://localhost:3000'
-    ),
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
@@ -29,7 +42,11 @@ app.use('/api/scraper', scraperRoutes);
 
 // Health check
 app.get('/', (req, res) => {
-  res.send('🪓 Sawprice Hunter API is running!');
+  res.json({ 
+    message: '🪓 Sawprice Hunter API is running!',
+    timestamp: new Date().toISOString(),
+    environment: isProduction ? 'production' : 'development'
+  });
 });
 
 // API health check
@@ -39,6 +56,9 @@ app.get('/api/health', (req, res) => {
     message: '🪓 Sawprice Hunter API is running!',
     timestamp: new Date().toISOString(),
     environment: isProduction ? 'production' : 'development',
+    cors: {
+      allowedOrigins: allowedOrigins
+    },
     endpoints: {
       scraper: '/api/scraper/prices',
       all: '/api/scraper/all'
@@ -48,15 +68,30 @@ app.get('/api/health', (req, res) => {
 
 // 404 fallback
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ 
+    error: 'Route not found',
+    path: req.path,
+    method: req.method
+  });
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err);
+  
+  // Handle CORS errors
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(403).json({ 
+      error: 'CORS error',
+      message: 'Origin not allowed',
+      allowedOrigins: allowedOrigins
+    });
+  }
+  
   res.status(500).json({ 
     error: 'Internal server error',
-    message: isProduction ? 'Something went wrong' : err.message
+    message: isProduction ? 'Something went wrong' : err.message,
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -64,5 +99,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on http://localhost:${PORT}`);
   console.log(`🌍 Environment: ${isProduction ? 'Production' : 'Development'}`);
-  console.log(`🔗 CORS origins: ${corsOptions.origin}`);
+  console.log(`🔗 CORS origins: ${allowedOrigins.join(', ')}`);
 });

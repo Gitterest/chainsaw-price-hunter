@@ -7,6 +7,16 @@ const {
   fallbackData
 } = require('../scraper');
 
+// GET /api/scraper/test — simple test endpoint that returns fallback data
+router.get('/test', (req, res) => {
+  console.log('Test endpoint called');
+  res.json({ 
+    message: 'API is working!',
+    listings: fallbackData,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // GET /api/scraper/all — scrape all sources without filters
 router.get('/all', async (req, res) => {
   try {
@@ -17,11 +27,12 @@ router.get('/all', async (req, res) => {
     ]);
 
     const listings = [];
-    results.forEach(r => {
-      if (r.status === 'fulfilled') {
+    results.forEach((r, index) => {
+      if (r.status === 'fulfilled' && r.value && r.value.listings && Array.isArray(r.value.listings)) {
+        console.log(`Scraper ${index + 1} succeeded with ${r.value.listings.length} results`);
         listings.push(...r.value.listings);
       } else {
-        console.error('❌ Scraper error:', r.reason);
+        console.error(`❌ Scraper ${index + 1} failed:`, r.reason || 'No valid data returned');
       }
     });
 
@@ -60,11 +71,11 @@ router.get('/prices', async (req, res) => {
 
     const listings = [];
     results.forEach((r, index) => {
-      if (r.status === 'fulfilled') {
+      if (r.status === 'fulfilled' && r.value && r.value.listings && Array.isArray(r.value.listings)) {
         console.log(`Scraper ${index + 1} succeeded with ${r.value.listings.length} results`);
         listings.push(...r.value.listings);
       } else {
-        console.error(`❌ Scraper ${index + 1} failed:`, r.reason);
+        console.error(`❌ Scraper ${index + 1} failed:`, r.reason || 'No valid data returned');
       }
     });
 
