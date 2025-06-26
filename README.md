@@ -25,13 +25,27 @@ Multi-platform application that scrapes chainsaw prices from sources like Facebo
 
 ## 📦 Development
 
+### Quick Start
+```bash
+# Install all dependencies
+npm run install:all
+
+# Start both frontend and backend
+npm run dev
+
+# Or start individually
+npm run dev:backend  # Backend only
+npm run dev:frontend # Frontend only
+```
+
+### Manual Setup
 ```bash
 # Backend
 cd backend
 npm install
 npm start
 
-# Frontend
+# Frontend (in new terminal)
 cd frontend
 npm install
 npm run dev
@@ -41,7 +55,7 @@ Create a `.env.local` file in `frontend` to point the UI at your backend:
 
 ```
 # Local development
-NEXT_PUBLIC_API_BASE=http://localhost:5000/api
+NEXT_PUBLIC_API_BASE=http://localhost:5000
 
 # Production example
 # NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
@@ -78,6 +92,7 @@ NEXT_PUBLIC_API_BASE=http://localhost:5000/api
 - **Performance Optimized**: Efficient animations and lazy loading
 
 ## 🔍 API Endpoints
+- `GET /api/health` - Health check endpoint
 - `GET /api/scraper/all` - Scrape all sources without filters
 - `GET /api/scraper/prices` - Scrape with query, region, and city parameters
 
@@ -94,6 +109,56 @@ NEXT_PUBLIC_API_BASE=http://localhost:5000/api
 - Comprehensive logging
 - Graceful degradation
 - Easy maintenance
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### 1. Search Error / API Not Found
+**Problem**: Getting "API endpoint not found" or connection errors
+**Solution**: 
+- Ensure backend is running: `cd backend && npm start`
+- Check if backend is on port 5000: `http://localhost:5000/api/health`
+- Verify API base URL in frontend: `frontend/src/utils/api.js`
+
+#### 2. 404 Audio File Error
+**Problem**: chainsaw-01.mp3 not found
+**Solution**:
+- Ensure `chainsaw-01.mp3` is in `frontend/public/` directory
+- Check file permissions and case sensitivity
+- Audio file should be accessible at `http://localhost:3000/chainsaw-01.mp3`
+
+#### 3. Scraping Fails
+**Problem**: No results returned from scrapers
+**Solution**:
+- Check browser console for detailed error logs
+- Verify internet connection
+- Some sites may block automated requests
+- Try different search terms or locations
+
+#### 4. Build Errors
+**Problem**: Frontend build fails
+**Solution**:
+- Run `npm install` in frontend directory
+- Clear Next.js cache: `rm -rf .next`
+- Check for missing dependencies
+
+### Testing
+```bash
+# Test API endpoints
+node test-api.js
+
+# Test frontend build
+cd frontend && npm run build
+
+# Check for linting issues
+cd frontend && npm run lint
+```
+
+### Debug Mode
+- Backend logs detailed scraping information
+- Frontend console shows API requests and responses
+- Check browser Network tab for failed requests
 
 ---
 

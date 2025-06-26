@@ -26,6 +26,19 @@ app.get('/', (req, res) => {
   res.send('🪓 Sawprice Hunter API is running!');
 });
 
+// API health check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: '🪓 Sawprice Hunter API is running!',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      scraper: '/api/scraper/prices',
+      all: '/api/scraper/all'
+    }
+  });
+});
+
 // 404 fallback
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

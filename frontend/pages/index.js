@@ -46,18 +46,34 @@ export default function Home() {
     setError('');
 
     try {
-      const res = await API.get('/scraper/prices', {
+      console.log('Making API request to:', '/api/scraper/prices');
+      console.log('With params:', { query, region: selectedState, city: selectedCity });
+      
+      const res = await API.get('/api/scraper/prices', {
         params: {
           query,
           region: selectedState,
           city: selectedCity
-        }
+        },
+        timeout: 30000 // 30 second timeout
       });
 
+      console.log('API response:', res.data);
       setResults(res.data.listings || []);
     } catch (err) {
       console.error('Search error:', err);
-      setError(err?.response?.data?.error || 'Failed to fetch data');
+      console.error('Error response:', err?.response);
+      console.error('Error message:', err?.message);
+      
+      if (err?.code === 'ECONNREFUSED') {
+        setError('Backend server is not running. Please start the backend server first.');
+      } else if (err?.response?.status === 404) {
+        setError('API endpoint not found. Please check if the backend is running correctly.');
+      } else if (err?.response?.status === 500) {
+        setError('Server error: ' + (err?.response?.data?.error || 'Unknown server error'));
+      } else {
+        setError(err?.response?.data?.error || err?.message || 'Failed to fetch data');
+      }
       setResults([]);
     } finally {
       setLoading(false);
