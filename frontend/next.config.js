@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // ✅ Enables static export support for Railway
+  output: 'export',
+
+  // ✅ Supports external images from known chainsaw marketplaces
   images: {
     domains: [
-      'i.dummyjson.com', 
+      'i.dummyjson.com',
       'api.qrserver.com',
       'images.unsplash.com',
       'offerup.com',
@@ -20,10 +25,11 @@ const nextConfig = {
       },
     ],
   },
+
+  // ✅ Optional: Optimize output CSS during build
   experimental: {
     optimizeCss: true,
   },
 };
 
 module.exports = nextConfig;
-
