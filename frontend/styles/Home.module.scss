@@ -154,6 +154,13 @@
   }
 }
 
+.neonGlow {
+  color: #fff;
+  text-shadow: 0 0 8px #0ff, 0 0 24px #0ff, 0 0 48px #f97316, 0 0 96px #f97316;
+  animation: neonPulse 2s infinite alternate;
+  letter-spacing: 2px;
+}
+
 @keyframes neonPulse {
   0%, 100% {
     text-shadow: 0 0 4px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;

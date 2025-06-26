@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { FaSearch, FaFacebook, FaEnvelope } from 'react-icons/fa';
@@ -10,7 +10,9 @@ import Donate from '../components/Donate';
 import EasterEgg from '../components/EasterEgg';
 import ChainsawBackground from '../components/ChainsawBackground';
 import InteractiveChainsaw from '../components/InteractiveChainsaw';
+import CursorEffects from '../components/CursorEffects';
 import API from '../src/utils/api';
+import dynamic from 'next/dynamic';
 
 const cityMap = {
   California: ["Los Angeles", "San Francisco", "San Diego"],
@@ -21,6 +23,8 @@ const cityMap = {
   Idaho: ["Boise", "Idaho Falls", "Twin Falls"],
   Indiana: ["Indianapolis", "Fort Wayne", "Evansville"]
 };
+
+const AnimatedBackground = dynamic(() => import('../components/AnimatedBackground'), { ssr: false });
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -42,7 +46,7 @@ export default function Home() {
     setError('');
 
     try {
-      const res = await API.get('/api/prices', {
+      const res = await API.get('/scraper/prices', {
         params: {
           query,
           region: selectedState,
@@ -60,6 +64,16 @@ export default function Home() {
     }
   };
 
+  // Easter egg: secret dark mode toggle
+  useEffect(() => {
+    const secretBtn = document.getElementById('secret-dark-toggle');
+    if (secretBtn) {
+      secretBtn.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+      };
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -67,13 +81,17 @@ export default function Home() {
         <meta name="description" content="A chainsaw price tracker for finding current values and deals." />
       </Head>
 
+      <AnimatedBackground />
       <HeroDecoration />
       <EasterEgg />
       <ChainsawBackground />
       <InteractiveChainsaw />
+      <CursorEffects />
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Sawprice Hunter</h1>
+        <h1 className={styles.title}>
+          <span className={styles.neonGlow}>Sawprice Hunter</span>
+        </h1>
         <p className={styles.description}>Chainsaw pricing across major platforms</p>
 
         <div className={styles.filters}>
@@ -108,6 +126,7 @@ export default function Home() {
             placeholder="e.g. husqvarna chainsaw"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search chainsaw listings"
           />
           <motion.button
             type="submit"
@@ -134,6 +153,7 @@ export default function Home() {
             <FaEnvelope />
           </a>
         </div>
+        <button id="secret-dark-toggle" style={{ opacity: 0, position: 'absolute', left: '-9999px' }} aria-label="Toggle dark mode" tabIndex={-1}></button>
         <Donate />
       </footer>
     </div>

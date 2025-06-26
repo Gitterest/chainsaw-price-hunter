@@ -1,55 +1,37 @@
 import { motion } from 'framer-motion';
 import styles from '../styles/Dashboard.module.scss';
 
-const spinnerVariants = {
-  animate: {
-    rotate: 360,
-    transition: {
-      repeat: Infinity,
-      duration: 1.2,
-      ease: 'linear'
-    }
-  }
-};
-
-const dotsVariants = {
-  animate: {
-    opacity: [0.2, 1, 0.2],
-    transition: {
-      duration: 1.2,
-      repeat: Infinity,
-      ease: 'easeInOut'
-    }
-  }
-};
-
 export default function Loader() {
   return (
-    <div className={styles.loaderContainer}>
-      <motion.svg
+    <motion.div
+      className={styles.loaderContainer}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
         className={styles.spinner}
-        width="64"
-        height="64"
-        viewBox="0 0 100 100"
-        variants={spinnerVariants}
-        animate="animate"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        style={{
+          width: 64,
+          height: 64,
+          border: '4px solid rgba(59, 130, 246, 0.1)',
+          borderTop: '4px solid #3b82f6',
+          borderRadius: '50%',
+          marginBottom: '1rem'
+        }}
+      />
+      <motion.div
+        className={styles.loaderText}
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
       >
-        <circle
-          cx="50"
-          cy="50"
-          r="40"
-          stroke="#3b82f6"
-          strokeWidth="8"
-          fill="none"
-          strokeLinecap="round"
-        />
-      </motion.svg>
-      <div className={styles.loaderText}>
-        <span>Searching listings</span>
-        <motion.span className={styles.dot} variants={dotsVariants} animate="animate">.</motion.span>
-        <motion.span className={styles.dot} variants={dotsVariants} animate="animate" transition={{ delay: 0.2 }}>. </motion.span>
-        <motion.span className={styles.dot} variants={dotsVariants} animate="animate" transition={{ delay: 0.4 }}>.</motion.span>
-      </div>
-    </div>
+        Hunting for chainsaws
+        <span className={styles.dot}>.</span>
+        <span className={styles.dot}>.</span>
+        <span className={styles.dot}>.</span>
+      </motion.div>
+    </motion.div>
   );
 }
