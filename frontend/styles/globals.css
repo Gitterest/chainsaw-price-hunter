@@ -2,29 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark mode styles */
-body.dark-mode {
-  background: #0a0a0a !important;
-  color: #f2f2f2 !important;
-}
-
-body.dark-mode .container,
-body.dark-mode .main {
-  background: none !important;
-  color: #f2f2f2 !important;
-}
-
-body.dark-mode .searchBar input {
-  background: #222 !important;
-  color: #0ff !important;
-  border: 1px solid #333 !important;
-}
-
-body.dark-mode .searchButton {
-  background: #0ff !important;
-  color: #222 !important;
-}
-
 /* Custom fonts */
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
@@ -64,10 +41,6 @@ a {
   }
 }
 
-@import './app.css';
-@import './styles.css';
-@import './Collapsible.module.css';
-
 /* Font variables */
 :root {
   --font-display: 'Bebas Neue', sans-serif;
@@ -103,7 +76,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  cursor: none;
 }
 
 h1, h2, h3, .title {
@@ -125,8 +97,29 @@ input,
 textarea,
 a {
   outline: none;
-  ring: 2px var(--accent);
-  ring-opacity: 0.5;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background: #0a0a0a !important;
+  color: #f2f2f2 !important;
+}
+
+body.dark-mode .container,
+body.dark-mode .main {
+  background: none !important;
+  color: #f2f2f2 !important;
+}
+
+body.dark-mode .searchBar input {
+  background: #222 !important;
+  color: #0ff !important;
+  border: 1px solid #333 !important;
+}
+
+body.dark-mode .searchButton {
+  background: #0ff !important;
+  color: #222 !important;
 }
 
 #color-cursor {
