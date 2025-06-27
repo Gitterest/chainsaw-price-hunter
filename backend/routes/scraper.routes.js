@@ -19,12 +19,11 @@ router.get('/test', (req, res) => {
 
 // GET /api/scraper/all — scrape all sources without filters
 router.get('/all', async (req, res) => {
-  const proxyUrl = req.query.proxy || process.env.PROXY_URL;
   try {
     const results = await Promise.allSettled([
-      scrapeFacebookMarketplace(undefined, proxyUrl),
-      scrapeOfferUp(undefined, proxyUrl),
-      scrapeMercari(undefined, proxyUrl)
+      scrapeFacebookMarketplace(),
+      scrapeOfferUp(),
+      scrapeMercari()
     ]);
 
     const listings = [];
@@ -53,8 +52,7 @@ router.get('/all', async (req, res) => {
 
 // GET /api/scraper/prices — proxy for frontend with required params
 router.get('/prices', async (req, res) => {
-  const { query, region, city, proxy } = req.query;
-  const proxyUrl = proxy || process.env.PROXY_URL;
+  const { query, region, city } = req.query;
 
   console.log('Received scraper request:', { query, region, city });
 
@@ -66,9 +64,9 @@ router.get('/prices', async (req, res) => {
   try {
     console.log('Starting scraping for:', query);
     const results = await Promise.allSettled([
-      scrapeFacebookMarketplace(query, proxyUrl),
-      scrapeOfferUp(query, proxyUrl),
-      scrapeMercari(query, proxyUrl)
+      scrapeFacebookMarketplace(query),
+      scrapeOfferUp(query),
+      scrapeMercari(query)
     ]);
 
     const listings = [];
