@@ -77,7 +77,7 @@ const fallbackData = [
   {
     title: "Husqvarna 562 XP G MARK II",
     price: "$1009.99",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format",
+    image: "https://www-static-nw.husqvarna.com/-/images/aprimo/husqvarna/chainsaws/photos/studio/cw-214781.webp?v=9d2a2924148fd9b9&format=WEBP_LANDSCAPE_CONTAIN_XXL",
     url: "https://www.husqvarna.com/us/chainsaws/562xp-g-mark-ii/",
     source: "Fallback"
   },
