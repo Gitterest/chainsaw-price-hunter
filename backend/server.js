@@ -12,7 +12,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const allowedOrigins = [
   'http://localhost:3000',
   'https://chainsaw-price-hunter-production.up.railway.app',
-  'https://sawprice-hunter-frontend-production.up.railway.app'
+  'https://sawprice-hunter-backend-production.up.railway.app'
 ];
 
 const corsOptions = {
