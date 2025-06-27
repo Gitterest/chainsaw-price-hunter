@@ -7,6 +7,7 @@ const nextConfig = {
 
   // ✅ Supports external images from known chainsaw marketplaces
   images: {
+    unoptimized: true,
     domains: [
       'i.dummyjson.com',
       'api.qrserver.com',

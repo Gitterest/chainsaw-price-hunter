@@ -37,7 +37,6 @@ export default function ResultCard({ item }) {
           height={200}
           style={{ objectFit: 'cover', borderRadius: '0.5rem', border: '2px solid #0ff' }}
           onError={handleImageError}
-          unoptimized={currentImageSrc.startsWith('http')}
         />
       </div>
       <div className={styles.cardBody}>

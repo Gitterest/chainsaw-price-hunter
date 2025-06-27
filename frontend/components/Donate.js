@@ -122,7 +122,6 @@ function Donate() {
             alt={`${currency.toUpperCase()} QR Code`}
             width={150}
             height={150}
-            unoptimized
             style={{ margin: '0 auto 1rem', borderRadius: '0.5rem' }}
           />
 
