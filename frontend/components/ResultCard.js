@@ -2,9 +2,24 @@ import Image from 'next/image';
 import styles from '../styles/Dashboard.module.scss';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function ResultCard({ item }) {
   const { title, price, url, location, image } = item;
+  const [imageError, setImageError] = useState(false);
+  const [currentImageSrc, setCurrentImageSrc] = useState(image || '/chainsaw.gif');
+
+  useEffect(() => {
+    console.log('ResultCard image:', { original: image, current: currentImageSrc, error: imageError });
+  }, [image, currentImageSrc, imageError]);
+
+  const handleImageError = () => {
+    console.log('Image failed to load, using fallback:', currentImageSrc);
+    if (!imageError) {
+      setImageError(true);
+      setCurrentImageSrc('/chainsaw.gif');
+    }
+  };
 
   return (
     <motion.div
@@ -16,11 +31,13 @@ export default function ResultCard({ item }) {
     >
       <div className={styles.cardImage} style={{ boxShadow: '0 0 16px #0ff88a44' }}>
         <Image
-          src={image || '/chainsaw.gif'}
+          src={currentImageSrc}
           alt={title || 'Chainsaw listing'}
           width={300}
           height={200}
           style={{ objectFit: 'cover', borderRadius: '0.5rem', border: '2px solid #0ff' }}
+          onError={handleImageError}
+          unoptimized={currentImageSrc.startsWith('http')}
         />
       </div>
       <div className={styles.cardBody}>

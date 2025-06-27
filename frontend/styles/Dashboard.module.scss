@@ -158,6 +158,11 @@
   height: 180px;
   object-fit: cover;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #1e293b, #334155);
+  background-image: url('/chainsaw.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .cardBody {
