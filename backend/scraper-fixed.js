@@ -381,4 +381,4 @@ module.exports = {
   scrapeOfferUp,
   scrapeMercari,
   fallbackData
-};
+}; 
