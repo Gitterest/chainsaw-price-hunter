@@ -58,14 +58,28 @@
   justify-content: center;
 
   select {
-    background: rgba(255,255,255,0.05);
+    background: rgba(30,30,30,0.98);
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     padding: 0.5rem;
     border-radius: 0.5rem;
     outline: none;
     font-family: 'Rajdhani', sans-serif;
     min-width: 140px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px #0008;
+    transition: border 0.2s;
+  }
+  select:focus {
+    border: 1.5px solid #0ff;
+    background: #181818;
+    color: #0ff;
+  }
+  select option {
+    background: #181818;
+    color: #fff;
+    font-weight: 600;
   }
 }
 

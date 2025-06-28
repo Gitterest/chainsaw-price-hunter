@@ -8,7 +8,13 @@ export default function InteractiveChainsaw() {
   const handleClick = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play();
+      audioRef.current.muted = false;
+      audioRef.current.volume = 1;
+      audioRef.current.play().catch((err) => {
+        // Log error for debugging
+        console.error('Audio playback failed:', err);
+        alert('Audio playback failed: ' + err.message);
+      });
     }
     setActive(true);
     setTimeout(() => setActive(false), 1000);
@@ -16,7 +22,7 @@ export default function InteractiveChainsaw() {
 
   return (
     <div className={styles.container} onClick={handleClick} aria-label="Play chainsaw">
-      <audio ref={audioRef} src="/chainsaw-01.mp3" preload="auto" />
+      <audio ref={audioRef} src="/chainsaw-01.mp3" preload="auto" controls />
       <svg className={styles.chainsaw} viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="15" width="35" height="20" rx="4" className={styles.body} />
         <rect x="32" y="20" width="80" height="10" rx="5" className={styles.blade} />

@@ -1,38 +1,80 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaDonate } from 'react-icons/fa';
+import { FaDonate, FaBtc, FaMonero, FaDollarSign, FaPaypal } from 'react-icons/fa';
 import Image from 'next/image';
+
+// Add a simple chainsaw SVG for the donate button
+const ChainsawIcon = ({ size = 32 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="20" width="20" height="8" rx="2" fill="#f97316" stroke="#222" strokeWidth="2"/>
+    <rect x="30" y="22" width="8" height="4" rx="1" fill="#222" stroke="#222" strokeWidth="1"/>
+    <circle cx="12" cy="24" r="2" fill="#fff" stroke="#222" strokeWidth="1"/>
+    <circle cx="36" cy="24" r="2" fill="#fff" stroke="#222" strokeWidth="1"/>
+    <rect x="38" y="23" width="4" height="2" rx="1" fill="#f97316" stroke="#222" strokeWidth="1"/>
+    <rect x="6" y="23" width="4" height="2" rx="1" fill="#f97316" stroke="#222" strokeWidth="1"/>
+  </svg>
+);
 
 function Donate() {
   const [copied, setCopied] = useState(false);
-  const [currency, setCurrency] = useState('btc');
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  const [platform, setPlatform] = useState('btc');
 
   const btcAddress = 'bc1q2urpq80ttg7qmk5thheku4upjvsuwg6z8wjedm';
   const xmrAddress = '8AXgixS8eYa13vczPAnZyzDNuzXqr92x6bMcCWM25fv9g2EfFvt4NMvenJuQyqBvKHPzp5fcxVRz3MJGrDovAZB88YAzcWX';
 
   const handleCopy = () => {
-    const addr = currency === 'btc' ? btcAddress : xmrAddress;
-    navigator.clipboard.writeText(addr);
+    let addr = '';
+    if (platform === 'btc') addr = btcAddress;
+    else if (platform === 'xmr') addr = xmrAddress;
     setCopied(true);
+    navigator.clipboard.writeText(addr);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const qrData = currency === 'btc'
-    ? `bitcoin:${btcAddress}`
-    : `monero:${xmrAddress}`;
+  // Platform data
+  const platforms = [
+    {
+      key: 'btc',
+      label: 'Bitcoin',
+      icon: <FaBtc color="#f7931a" size={22} />,
+      qr: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bitcoin:${btcAddress}`,
+      address: btcAddress,
+      info: 'BTC Address',
+      color: '#f7931a',
+    },
+    {
+      key: 'xmr',
+      label: 'Monero',
+      icon: <FaMonero color="#ff6600" size={22} />,
+      qr: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=monero:${xmrAddress}`,
+      address: xmrAddress,
+      info: 'XMR Address',
+      color: '#ff6600',
+    },
+    {
+      key: 'cashapp',
+      label: 'Cash App',
+      icon: <FaDollarSign color="#00d632" size={22} />,
+      qr: '/IMG_0668.jpeg',
+      address: '$bimmerduder',
+      info: 'Cash App $Cashtag',
+      color: '#00d632',
+      link: 'https://cash.app/$bimmerduder',
+    },
+    {
+      key: 'paypal',
+      label: 'PayPal',
+      icon: <FaPaypal color="#0070ba" size={22} />,
+      qr: '/IMG_05669.jpeg',
+      address: '',
+      info: 'Scan to tip via PayPal',
+      color: '#0070ba',
+      link: '',
+    },
+  ];
 
-  const address = currency === 'btc' ? btcAddress : xmrAddress;
+  const selected = platforms.find((p) => p.key === platform);
 
   return (
     <>
@@ -53,17 +95,17 @@ function Donate() {
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             style={{
-              background: 'rgba(255, 255, 255, 0.85)',
+              background: 'rgba(30, 30, 30, 0.97)',
               borderRadius: '1.25rem',
-              padding: '2rem',
-              maxWidth: '480px',
-              width: '90%',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+              padding: '1.2rem',
+              maxWidth: '340px',
+              width: '95%',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
               textAlign: 'center',
-              backdropFilter: 'blur(8px)',
-              position: 'relative'
+              position: 'relative',
+              color: '#fff',
             }}
           >
             <button
@@ -71,162 +113,146 @@ function Donate() {
               style={{
                 position: 'absolute',
                 top: '0.5rem',
-              right: '0.5rem',
-              background: 'transparent',
-              border: 'none',
-              fontSize: '1.25rem',
-              cursor: 'pointer'
-            }}
-            aria-label="Close"
-          >
-            &times;
-          </button>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-            Support Sawprice Hunter
-          </h2>
-          <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-            BTC and XMR donations are appreciated.
-          </p>
-
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <button
-              onClick={() => setCurrency('btc')}
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '0.75rem',
-                border: currency === 'btc' ? '2px solid black' : '1px solid #ccc',
-                background: currency === 'btc' ? '#000' : '#f0f0f0',
-                color: currency === 'btc' ? '#fff' : '#000',
+                right: '0.5rem',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '1.25rem',
+                color: '#fff',
                 cursor: 'pointer',
               }}
+              aria-label="Close"
             >
-              Bitcoin
+              &times;
             </button>
-            <button
-              onClick={() => setCurrency('xmr')}
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '0.75rem',
-                border: currency === 'xmr' ? '2px solid black' : '1px solid #ccc',
-                background: currency === 'xmr' ? '#000' : '#f0f0f0',
-                color: currency === 'xmr' ? '#fff' : '#000',
-                cursor: 'pointer',
-              }}
-            >
-              Monero
-            </button>
-          </div>
-
-          <Image
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`}
-            alt={`${currency.toUpperCase()} QR Code`}
-            width={150}
-            height={150}
-            style={{ margin: '0 auto 1rem', borderRadius: '0.5rem' }}
-          />
-
-          <code style={{ fontSize: '0.8rem', wordBreak: 'break-all', display: 'block', marginBottom: '0.5rem' }}>
-            {address}
-          </code>
-
-          <button
-            onClick={handleCopy}
-            style={{
-              padding: '0.5rem 1.5rem',
-              background: 'black',
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.75rem',
-              fontSize: '0.9rem',
-              cursor: 'pointer',
-            }}
-          >
-            {copied ? 'Address copied!' : 'Copy Address'}
-          </button>
-
-          {/* --- Cash App Donation Section --- */}
-          <div style={{
-            marginTop: '2rem',
-            padding: '1rem',
-            borderRadius: '1rem',
-            background: '#f6fff6',
-            border: '1px solid #00d632',
-            textAlign: 'center'
-          }}>
-            <h3 style={{ color: '#00d632', marginBottom: 8 }}>Donate with Cash App</h3>
-            <a
-              href="https://cash.app/$bimmerduder"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: 'inline-block', marginBottom: 8 }}
-            >
-              <Image
-                src="/IMG_0668.jpeg"
-                alt="Cash App QR for $bimmerduder"
-                width={150}
-                height={150}
-                style={{ borderRadius: 12, border: '1px solid #eee' }}
-              />
-            </a>
-            <div>
-              <strong>Cash App $Cashtag:</strong>{' '}
-              <a
-                href="https://cash.app/$bimmerduder"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#00d632', fontWeight: 'bold' }}
-              >
-                $bimmerduder
-              </a>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: 1 }}>Support Sawprice Hunter</h2>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, margin: '0.5rem 0 1.2rem' }}>
+              {platforms.map((p) => (
+                <button
+                  key={p.key}
+                  onClick={() => setPlatform(p.key)}
+                  style={{
+                    background: platform === p.key ? p.color : '#222',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '0.4rem 0.7rem',
+                    margin: 0,
+                    fontWeight: 600,
+                    fontSize: 13,
+                    boxShadow: platform === p.key ? `0 0 8px ${p.color}` : 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    cursor: 'pointer',
+                    transition: 'background 0.2s, box-shadow 0.2s',
+                  }}
+                  aria-label={p.label}
+                >
+                  {p.icon} {p.label}
+                </button>
+              ))}
             </div>
-          </div>
-
-          {/* --- PayPal Donation Section --- */}
-          <div style={{
-            marginTop: '2rem',
-            padding: '1rem',
-            borderRadius: '1rem',
-            background: '#f6faff',
-            border: '1px solid #0070ba',
-            textAlign: 'center'
-          }}>
-            <h3 style={{ color: '#0070ba', marginBottom: 8 }}>Tip Jar (PayPal)</h3>
-            <Image
-              src="/IMG_05669.jpeg"
-              alt="PayPal Tip Jar QR Code"
-              width={150}
-              height={150}
-              style={{ borderRadius: 12, border: '1px solid #eee' }}
-            />
-            <div style={{ marginTop: 8, color: '#0070ba', fontWeight: 'bold' }}>
-              Scan to tip via PayPal
+            <div style={{ margin: '0 auto', maxWidth: 180, background: '#181818', borderRadius: 12, padding: 12, boxShadow: `0 0 0 2px ${selected.color}33` }}>
+              {selected.key === 'btc' || selected.key === 'xmr' ? (
+                <>
+                  <Image
+                    src={selected.qr}
+                    alt={`${selected.label} QR Code`}
+                    width={120}
+                    height={120}
+                    style={{ margin: '0 auto', borderRadius: 8 }}
+                  />
+                  <code style={{ fontSize: '0.8rem', wordBreak: 'break-all', display: 'block', margin: '0.5rem 0', color: selected.color }}>
+                    {selected.address}
+                  </code>
+                  <button
+                    onClick={handleCopy}
+                    style={{
+                      padding: '0.4rem 1.2rem',
+                      background: selected.color,
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '0.75rem',
+                      fontSize: '0.9rem',
+                      cursor: 'pointer',
+                      marginTop: 4,
+                    }}
+                  >
+                    {copied ? 'Address copied!' : 'Copy Address'}
+                  </button>
+                </>
+              ) : selected.key === 'cashapp' ? (
+                <>
+                  <a
+                    href={selected.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: 'inline-block', marginBottom: 8 }}
+                  >
+                    <Image
+                      src={selected.qr}
+                      alt="Cash App QR for $bimmerduder"
+                      width={120}
+                      height={120}
+                      style={{ borderRadius: 8, border: '1px solid #eee' }}
+                    />
+                  </a>
+                  <div style={{ fontWeight: 600, color: selected.color, fontSize: 15 }}>
+                    Cash App $Cashtag: <a href={selected.link} target="_blank" rel="noopener noreferrer" style={{ color: selected.color }}>$bimmerduder</a>
+                  </div>
+                </>
+              ) : selected.key === 'paypal' ? (
+                <>
+                  <Image
+                    src={selected.qr}
+                    alt="PayPal Tip Jar QR Code"
+                    width={120}
+                    height={120}
+                    style={{ borderRadius: 8, border: '1px solid #eee' }}
+                  />
+                  <div style={{ marginTop: 8, color: selected.color, fontWeight: 'bold', fontSize: 15 }}>
+                    Scan to tip via PayPal
+                  </div>
+                </>
+              ) : null}
             </div>
-          </div>
           </motion.div>
         </div>
       )}
 
+      {/* Glowing animated chainsaw donate button */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.15, boxShadow: '0 0 16px #f97316, 0 0 32px #fff' }}
+        animate={{
+          boxShadow: [
+            '0 0 8px #f97316, 0 0 0px #fff',
+            '0 0 16px #f97316, 0 0 8px #fff',
+            '0 0 8px #f97316, 0 0 0px #fff',
+          ],
+        }}
+        transition={{ duration: 2, repeat: Infinity, repeatType: 'loop' }}
         style={{
           position: 'fixed',
           bottom: 20,
           right: 20,
-          background: '#fff',
+          background: 'linear-gradient(135deg, #f97316 60%, #fff 100%)',
           borderRadius: '50%',
-          width: 50,
-          height: 50,
-          boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+          width: 54,
+          height: 54,
+          boxShadow: '0 0 12px #f97316',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          zIndex: 999
+          zIndex: 999,
+          border: 'none',
+          outline: 'none',
+          padding: 0,
         }}
         aria-label="Toggle Donate"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <FaDonate color="#f97316" />
+        <ChainsawIcon size={32} />
       </motion.button>
     </>
   );
