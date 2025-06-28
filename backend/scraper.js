@@ -82,31 +82,66 @@ const fallbackData = [
     source: "Fallback"
   },
   {
-    title: "McCulloch Super 250",
-    price: "$250.00",
-    image: "https://www.picclickimg.com/images/g/K94AAOSwSzpbRW7i/s-l1600.jpg",
-    url: "https://picclick.com/Vintage-McCulloch-Super-250-Chainsaw-Great-Condition-302801255160.html",
+    title: "Husqvarna T525",
+    price: "$589.99",
+    image: "https://www-static-nw.husqvarna.com/-/images/aprimo/husqvarna/chainsaws/photos/studio/h110-0481.webp?v=f9e9b167148fd9b9&format=WEBP_LANDSCAPE_CONTAIN_XXL",
+    url: "https://www.husqvarna.com/us/chainsaws/t525/",
     source: "Fallback"
   },
   {
     title: "STIHL MS 201 T C-M",
     price: "$799.99",
     image: "https://stihlusa-images.imgix.net/Product/2880/ms201tcm.png?w=692&h=692&fit=fill&auto=format,compress&fill=solid",
-    url: "https://www.stihlusa.com/products/chain-saws/in-tree-saws/ms201tcm/?aqid=aa574060505c0940c79b85a9173d5a7d",
+    url: "https://www.stihlusa.com/products/chain-saws/in-tree-saws/ms201tcm/",
     source: "Fallback"
   },
   {
-    title: "Makita EA4300F40B Chainsaw",
-    price: "$299.99",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format",
-    url: "https://www.makitatools.com/products/details/EA4300F40B",
+    title: "STIHL MS 500i",
+    price: "$1329.99",
+    image: "https://stihlusa-images.imgix.net/Product/3255/ms500i.png?w=692&h=692&fit=fill&auto=format,compress&fill=solid",
+    url: "https://www.stihlusa.com/products/chain-saws/professional-saws/ms500i/",
     source: "Fallback"
   },
   {
-    title: "Poulan Pro PR5020 Chainsaw",
+    title: "Jonsered CS 2255",
+    price: "$499.99",
+    image: "https://www.usa.jonsered.com/ddoc/JONI/JONI2021_USen/JONI2021_USen_2255P-966532301.png",
+    url: "https://www.usa.jonsered.com/us/products/chainsaws/cs-2255/",
+    source: "Fallback"
+  },
+  {
+    title: "Echo CS-590 Timber Wolf",
+    price: "$419.99",
+    image: "https://www.echo-usa.com/getmedia/ede35f9d-8a2c-4087-bef8-7589a7b3ef85/CS-590-1.png",
+    url: "https://www.echo-usa.com/Products/Chainsaws/CS-590",
+    source: "Fallback"
+  },
+  {
+    title: "McCulloch CS 380",
+    price: "$189.99",
+    image: "https://www.mcculloch.com/ddoc/MCCO/MCCO2015_EUen/MCCO2015_EUen_CS-380T-967320601.png",
+    url: "https://www.mcculloch.com/uk/products/chainsaws/cs-380/",
+    source: "Fallback"
+  },
+  {
+    title: "McCulloch CS 450 Elite",
+    price: "$359.99",
+    image: "https://www.mcculloch.com/ddoc/MCCO/MCCO2015_EUen/MCCO2015_EUen_CS-450ELITE-966631713.png",
+    url: "https://www.mcculloch.com/uk/products/chainsaws/cs-450-elite/",
+    source: "Fallback"
+  },
+  {
+    title: "Homelite 18 in. 42cc Gas Chainsaw",
+    price: "$149.00",
+    image: "https://images.thdstatic.com/productImages/8a35a64a-dfe4-42a2-94f3-529f35b8f3b5/svn/homelite-gas-chainsaws-ut10568a-64_600.jpg",
+    url: "https://www.homedepot.com/p/Homelite-18-in-42cc-Gas-Chainsaw-UT10568A/203681790",
+    source: "Fallback"
+  },
+  {
+    title: "Poulan Pro PR5020",
     price: "$199.99",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format",
-    url: "https://www.poulanpro.com/products/chainsaws/chainsaw-pr5020",
+    image: "https://www.poulanpro.com/globalassets/catalog/productimages/chainsaws/pr5020-967061501.png",
+    url: "https://www.poulanpro.com/us/products/chainsaws/pr5020/",
     source: "Fallback"
   }
 ];
