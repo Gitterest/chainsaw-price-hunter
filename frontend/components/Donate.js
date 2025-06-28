@@ -143,6 +143,65 @@ function Donate() {
           >
             {copied ? 'Address copied!' : 'Copy Address'}
           </button>
+
+          {/* --- Cash App Donation Section --- */}
+          <div style={{
+            marginTop: '2rem',
+            padding: '1rem',
+            borderRadius: '1rem',
+            background: '#f6fff6',
+            border: '1px solid #00d632',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ color: '#00d632', marginBottom: 8 }}>Donate with Cash App</h3>
+            <a
+              href="https://cash.app/$bimmerduder"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', marginBottom: 8 }}
+            >
+              <Image
+                src="/IMG_0668.jpeg"
+                alt="Cash App QR for $bimmerduder"
+                width={150}
+                height={150}
+                style={{ borderRadius: 12, border: '1px solid #eee' }}
+              />
+            </a>
+            <div>
+              <strong>Cash App $Cashtag:</strong>{' '}
+              <a
+                href="https://cash.app/$bimmerduder"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#00d632', fontWeight: 'bold' }}
+              >
+                $bimmerduder
+              </a>
+            </div>
+          </div>
+
+          {/* --- PayPal Donation Section --- */}
+          <div style={{
+            marginTop: '2rem',
+            padding: '1rem',
+            borderRadius: '1rem',
+            background: '#f6faff',
+            border: '1px solid #0070ba',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ color: '#0070ba', marginBottom: 8 }}>Tip Jar (PayPal)</h3>
+            <Image
+              src="/IMG_05669.jpeg"
+              alt="PayPal Tip Jar QR Code"
+              width={150}
+              height={150}
+              style={{ borderRadius: 12, border: '1px solid #eee' }}
+            />
+            <div style={{ marginTop: 8, color: '#0070ba', fontWeight: 'bold' }}>
+              Scan to tip via PayPal
+            </div>
+          </div>
           </motion.div>
         </div>
       )}
