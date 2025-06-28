@@ -2,7 +2,6 @@
   "public": "out",
   "cleanUrls": true,
   "trailingSlash": false,
-  "port": 3000,
   "rewrites": [
     {
       "source": "/api/**",

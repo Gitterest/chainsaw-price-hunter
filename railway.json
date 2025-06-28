@@ -4,7 +4,7 @@
       "name": "frontend",
       "rootDirectory": "frontend",
       "buildCommand": "npm install && npm run build",
-      "startCommand": "npx serve@latest out -p 3000"
+      "startCommand": "npx serve@latest out -p ${PORT:-3000}"
     },
     {
       "name": "backend",
