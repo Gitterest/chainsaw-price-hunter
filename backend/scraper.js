@@ -82,17 +82,17 @@ const fallbackData = [
     source: "Fallback"
   },
   {
-    title: "Stihl MS 271 Farm Boss Chainsaw",
-    price: "$449.99",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format",
-    url: "https://www.stihlusa.com/products/chain-saws/homeowner-saws/ms271/",
+    title: "McCulloch Super 250",
+    price: "$250.00",
+    image: "https://www.picclickimg.com/images/g/K94AAOSwSzpbRW7i/s-l1600.jpg",
+    url: "https://picclick.com/Vintage-McCulloch-Super-250-Chainsaw-Great-Condition-302801255160.html",
     source: "Fallback"
   },
   {
-    title: "Echo CS-590 Timber Wolf Chainsaw",
-    price: "$379.99",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format",
-    url: "https://www.echo-usa.com/chain-saws/cs-590",
+    title: "STIHL MS 201 T C-M",
+    price: "$799.99",
+    image: "https://stihlusa-images.imgix.net/Product/2880/ms201tcm.png?w=692&h=692&fit=fill&auto=format,compress&fill=solid",
+    url: "https://www.stihlusa.com/products/chain-saws/in-tree-saws/ms201tcm/?aqid=aa574060505c0940c79b85a9173d5a7d",
     source: "Fallback"
   },
   {
