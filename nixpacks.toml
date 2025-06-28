@@ -17,10 +17,10 @@ cmds = [
   "npm install"
 ]
 
-# Start command for the frontend
+# Start command for the frontend (using nginx to serve static files)
 [start.frontend]
 cmd = "nginx -g 'daemon off;'"
 
 # Start command for the backend
 [start.backend]
-cmd = "node server.js"
+cmd = "cd backend && node server.js"

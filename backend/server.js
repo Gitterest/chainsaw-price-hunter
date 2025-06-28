@@ -12,29 +12,24 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === 'production';
 
-// ✅ Connect to MongoDB
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://rawfabricator:mongodmon@chainsawdb.6izrg.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+// ✅ Connect to MongoDB using Mongoose
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://rawfabricator:mongodmon@chainsawdb.6izrg.mongodb.net/?retryWrites=true&w=majority";
 
-async function run() {
+async function connectDB() {
   try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("✅ Connected to MongoDB!");
+    await mongoose.connect(MONGO_URI);
+    console.log("✅ Connected to MongoDB via Mongoose!");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
-  } finally {
-    await client.close();
+    // Don't exit in production, allow fallback
+    if (!isProduction) {
+      process.exit(1);
+    }
   }
 }
-run().catch(console.dir);
+
+// Connect to database
+connectDB();
 
 // ✅ Define Mongoose schemas
 const SearchSchema = new mongoose.Schema({
@@ -84,15 +79,22 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api/scraper', scraperRoutes);
 
-// ✅ Combined API Route
+// ✅ Combined API Route - Fixed to match existing format
 app.get("/api/prices", async (req, res) => {
   const { query } = req.query;
   
   if (!query) return res.status(400).json({ error: "Search query is required" });
 
   try {
-    // Save search query to MongoDB
-    await new Search({ query }).save();
+    // Save search query to MongoDB (only if connected)
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await new Search({ query }).save();
+        console.log("✅ Search query saved to MongoDB:", query);
+      } catch (dbError) {
+        console.warn("⚠️ Failed to save search query to MongoDB:", dbError.message);
+      }
+    }
 
     // Import scrapers
     const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require('./scraper');
@@ -106,18 +108,15 @@ app.get("/api/prices", async (req, res) => {
 
     const combinedResults = results
       .filter(result => result.status === "fulfilled")
-      .flatMap(result => result.value.map(item => ({
-        ...item,
-        source: result.value.source || "Unknown"
-      })));
+      .flatMap(result => result.value.listings || []);
 
     if (combinedResults.length === 0) {
       console.warn("⚠️ No results found for query:", query);
-      return res.status(404).json({ error: "No results found" });
+      return res.json({ listings: [] });
     }
 
     console.log("🔥 Combined Results:", JSON.stringify(combinedResults, null, 2));
-    res.json(combinedResults);
+    res.json({ listings: combinedResults });
    } catch (error) {
     console.error("🔥 Error during scraping:", error);
     res.status(500).json({ error: "Failed to scrape listings" });
@@ -140,6 +139,9 @@ app.get('/api/health', (req, res) => {
     message: '🪓 Sawprice Hunter API is running!',
     timestamp: new Date().toISOString(),
     environment: isProduction ? 'production' : 'development',
+    database: {
+      status: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    },
     cors: {
       allowedOrigins: allowedOrigins
     },

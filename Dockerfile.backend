@@ -3,18 +3,14 @@ FROM node:20 AS backend
 
 WORKDIR /usr/src/app
 
-# Copy only the package files to install dependencies
-COPY ./backend/package*.json ./backend/
+# Copy package files first for better caching
+COPY backend/package*.json ./
 
-# Install dependencies without copying node_modules
-WORKDIR /usr/src/app/backend
+# Install dependencies
 RUN npm install --force
 
 # Copy backend source code
-COPY ./backend ./backend/
-
-# Ensure node_modules is excluded
-RUN rm -rf node_modules
+COPY backend/ ./
 
 # Expose port 5000 for the backend server
 EXPOSE 5000

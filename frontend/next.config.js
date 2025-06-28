@@ -5,6 +5,9 @@ const nextConfig = {
   // ✅ Enables static export support for Railway
   output: 'export',
 
+  // ✅ Configure for static export
+  trailingSlash: true,
+
   // ✅ Supports external images from known chainsaw marketplaces
   images: {
     unoptimized: true,
@@ -25,11 +28,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-
-  // ✅ Optional: Optimize output CSS during build
-  experimental: {
-    optimizeCss: true,
   },
 };
 

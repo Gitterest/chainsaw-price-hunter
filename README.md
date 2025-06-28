@@ -1,165 +1,195 @@
 # 🪓 Chainsaw Price Hunter
 
-Multi-platform application that scrapes chainsaw prices from sources like Facebook Marketplace, displays results on a web dashboard, and supports a mobile UI.
+A multi-platform chainsaw price hunting application that scrapes and aggregates listings from Facebook Marketplace, OfferUp, and Mercari.
 
-## 🧠 Features
-- **Advanced Scraping**: Robust scrapers for Facebook Marketplace, OfferUp, and Mercari with anti-bot evasion
-- **Stunning UI**: Animated backgrounds, neon effects, parallax scrolling, and micro-interactions
-- **Interactive Elements**: Animated chainsaw mascot, cursor trails, and dynamic result cards
-- **Easter Eggs**: Konami code with confetti and sound effects, secret dark mode toggle
-- **Future-Proof**: User-agent rotation, error handling, and resilient selectors
-- **Accessibility**: ARIA labels, keyboard navigation, and responsive design
-- **Performance**: Optimized animations, lazy loading, and efficient rendering
+## 🚀 Features
 
-## 🚀 Stack
-- **Backend**: Node.js, Puppeteer with Stealth, MongoDB
-- **Frontend**: Next.js (React), Framer Motion, Canvas Confetti
-- **Styling**: SCSS modules, Tailwind CSS, custom animations
-- **Deployment**: Docker + Railway
+- **Multi-Platform Scraping**: Facebook Marketplace, OfferUp, and Mercari
+- **Real-time Search**: Find current chainsaw prices across platforms
+- **Location-based Filtering**: Search by state and city
+- **Modern UI**: Responsive design with animations and effects
+- **Database Integration**: MongoDB for search tracking and analytics
+- **Production Ready**: Deployed on Railway with Docker support
 
-## 🎮 Easter Eggs & Hidden Features
-- **Konami Code**: Press ↑↑↓↓←→←→BA for a chainsaw surprise with confetti and sound
-- **Cursor Trail**: Animated gradient trail follows your mouse movement
-- **Secret Dark Mode**: Hidden toggle in the footer (invisible button)
-- **Animated Background**: SVG parallax effects with chainsaw-themed elements
+## 🏗️ Architecture
 
-## 📦 Development
+- **Frontend**: Next.js with static export, Tailwind CSS, Framer Motion
+- **Backend**: Express.js with Puppeteer for web scraping
+- **Database**: MongoDB with Mongoose ODM
+- **Deployment**: Railway with Docker containers
+- **Styling**: SCSS modules with Tailwind CSS
 
-### Quick Start
-```bash
-# Install all dependencies
-npm run install:all
-
-# Start both frontend and backend
-npm run dev
-
-# Or start individually
-npm run dev:backend  # Backend only
-npm run dev:frontend # Frontend only
-```
-
-### Manual Setup
-```bash
-# Backend
-cd backend
-npm install
-npm start
-
-# Frontend (in new terminal)
-cd frontend
-npm install
-npm run dev
-```
-
-Create a `.env.local` file in `frontend` to point the UI at your backend:
+## 📁 Project Structure
 
 ```
-# Local development
-NEXT_PUBLIC_API_BASE=http://localhost:5000
-
-# Production example
-# NEXT_PUBLIC_API_BASE=https://sawprice-hunter-backend-production.up.railway.app
+chainsaw-price-hunter/
+├── frontend/                 # Next.js frontend application
+│   ├── components/          # React components
+│   ├── pages/              # Next.js pages
+│   ├── styles/             # SCSS and CSS files
+│   └── src/utils/          # Utility functions
+├── backend/                 # Express.js backend API
+│   ├── routes/             # API route handlers
+│   ├── jobs/               # Background job workers
+│   └── scraper.js          # Web scraping logic
+├── Dockerfile.frontend     # Frontend Docker configuration
+├── Dockerfile.backend      # Backend Docker configuration
+├── nginx.conf              # Nginx configuration for static serving
+├── railway.json            # Railway deployment configuration
+└── nixpacks.toml          # Railway build configuration
 ```
 
-## 🔧 Recent Improvements
+## 🛠️ Setup & Installation
 
-### Backend Enhancements
-- ✅ Fixed Facebook Marketplace URL (public search instead of private)
-- ✅ Updated OfferUp and Mercari selectors for current DOM
-- ✅ Added user-agent rotation for anti-bot evasion
-- ✅ Improved error handling and logging
-- ✅ Added fallback logic for missing data
+### Prerequisites
 
-### Frontend Visual Overhaul
-- ✅ Animated SVG background with parallax effects
-- ✅ Neon glow effects and micro-interactions
-- ✅ Enhanced result cards with hover animations
-- ✅ Interactive chainsaw mascot and cursor trails
-- ✅ Secret dark mode toggle
-- ✅ Improved accessibility and responsiveness
+- Node.js 20+
+- MongoDB database
+- Railway account (for deployment)
 
-### Easter Eggs
-- ✅ Upgraded Konami code with confetti and sound
-- ✅ Animated chainsaw with shake effect
-- ✅ Cursor trail with gradient colors
-- ✅ Hidden dark mode toggle
+### Local Development
 
-## 🎨 Visual Features
-- **Animated Background**: SVG gradients, chainsaw shapes, and sparkles
-- **Neon Effects**: Glowing text, borders, and interactive elements
-- **Micro-Interactions**: Hover effects, scale animations, and smooth transitions
-- **Responsive Design**: Flawless experience on all devices
-- **Performance Optimized**: Efficient animations and lazy loading
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd chainsaw-price-hunter
+   ```
 
-## 🔍 API Endpoints
-- `GET /api/health` - Health check endpoint
+2. **Install dependencies**
+   ```bash
+   npm run install:all
+   ```
+
+3. **Set up environment variables**
+   
+   Create `.env` files in both `backend/` and `frontend/` directories:
+   
+   **Backend (.env)**
+   ```env
+   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority
+   PORT=5000
+   NODE_ENV=development
+   ```
+   
+   **Frontend (.env.local)**
+   ```env
+   NEXT_PUBLIC_API_BASE=http://localhost:5000
+   ```
+
+4. **Start development servers**
+   ```bash
+   npm run dev
+   ```
+
+   This will start both frontend (port 3000) and backend (port 5000) servers.
+
+### Production Deployment
+
+The application is configured for deployment on Railway:
+
+1. **Connect your repository to Railway**
+2. **Set environment variables** in Railway dashboard
+3. **Deploy automatically** on push to main branch
+
+## 🔧 API Endpoints
+
+### Backend API
+
+- `GET /api/health` - Health check with system status
+- `GET /api/scraper/prices` - Scrape with region/city filters
 - `GET /api/scraper/all` - Scrape all sources without filters
-- `GET /api/scraper/prices` - Scrape with query, region, and city parameters
+- `GET /api/prices` - New combined scraping endpoint (query only)
 
-## 🛡️ Anti-Bot Measures
-- User-agent rotation
-- Stealth plugin integration
-- Random delays and timeouts
-- Robust error handling
-- Fallback selectors
+### Frontend Routes
 
-## 🎯 Future-Proof Features
-- Modular scraper architecture
-- Configurable selectors
-- Comprehensive logging
-- Graceful degradation
-- Easy maintenance
+- `/` - Main search interface
+- `/about` - About page
+- `/contact` - Contact page
 
-## 🔧 Troubleshooting
+## 🎨 Styling & Components
 
-### Common Issues
+### CSS Architecture
 
-#### 1. Search Error / API Not Found
-**Problem**: Getting "API endpoint not found" or connection errors
-**Solution**: 
-- Ensure backend is running: `cd backend && npm start`
-- Check if backend is on port 5000: `http://localhost:5000/api/health`
-- Verify API base URL in frontend: `frontend/src/utils/api.js`
+- **Tailwind CSS**: Utility-first CSS framework
+- **SCSS Modules**: Component-scoped styles
+- **Custom Fonts**: BleedingCowboys for branding
+- **Animations**: Framer Motion for smooth interactions
 
-#### 2. 404 Audio File Error
-**Problem**: chainsaw-01.mp3 not found
-**Solution**:
-- Ensure `chainsaw-01.mp3` is in `frontend/public/` directory
-- Check file permissions and case sensitivity
-- Audio file should be accessible at `http://localhost:3000/chainsaw-01.mp3`
+### Key Components
 
-#### 3. Scraping Fails
-**Problem**: No results returned from scrapers
-**Solution**:
-- Check browser console for detailed error logs
-- Verify internet connection
-- Some sites may block automated requests
-- Try different search terms or locations
+- `InteractiveChainsaw` - Animated chainsaw decoration
+- `ResultList` - Display search results
+- `SearchBar` - Search input with validation
+- `Loader` - Loading states
+- `AnimatedBackground` - Dynamic background effects
 
-#### 4. Build Errors
-**Problem**: Frontend build fails
-**Solution**:
-- Run `npm install` in frontend directory
-- Clear Next.js cache: `rm -rf .next`
-- Check for missing dependencies
+## 🗄️ Database Schema
 
-### Testing
-```bash
-# Test API endpoints
-node test-api.js
-
-# Test frontend build
-cd frontend && npm run build
-
-# Check for linting issues
-cd frontend && npm run lint
+### Search Model
+```javascript
+{
+  query: String,        // Search term
+  timestamp: Date       // Search timestamp
+}
 ```
 
-### Debug Mode
-- Backend logs detailed scraping information
-- Frontend console shows API requests and responses
-- Check browser Network tab for failed requests
+### Alert Model
+```javascript
+{
+  query: String,        // Search term
+  targetPrice: Number,  // Target price for alerts
+  email: String,        // User email
+  timestamp: Date       // Alert creation timestamp
+}
+```
+
+## 🚀 Performance Optimizations
+
+- **Static Export**: Next.js static generation for fast loading
+- **Image Optimization**: Unoptimized images for external sources
+- **Code Splitting**: Dynamic imports for heavy components
+- **Caching**: Browser caching for static assets
+- **Compression**: Gzip compression via Nginx
+
+## 🔒 Security Features
+
+- **CORS Protection**: Configured origins for API access
+- **Input Validation**: Server-side validation for all inputs
+- **Error Handling**: Comprehensive error handling and logging
+- **Rate Limiting**: Built-in timeout protection for scrapers
+
+## 🧪 Testing
+
+Run the API test suite:
+```bash
+node test-api.js
+```
+
+## 📊 Monitoring
+
+- **Health Checks**: `/api/health` endpoint for monitoring
+- **Error Logging**: Comprehensive error logging
+- **Database Status**: MongoDB connection monitoring
+- **Performance Metrics**: Request timing and response codes
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+- Email: contact@sawpricehunter.com
+- Issues: GitHub Issues page
 
 ---
 
-**Note**: The crypto donation section remains unchanged as requested. All new features are additive and don't affect existing functionality.
+**Built with ❤️ for chainsaw enthusiasts everywhere**
