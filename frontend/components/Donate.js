@@ -66,7 +66,7 @@ function Donate() {
       key: 'paypal',
       label: 'PayPal',
       icon: <FaPaypal color="#0070ba" size={22} />,
-      qr: '/IMG_05669.jpeg',
+      qr: '/paypal-qr.jpeg',
       address: '',
       info: 'Scan to tip via PayPal',
       color: '#0070ba',
@@ -209,6 +209,7 @@ function Donate() {
                     width={120}
                     height={120}
                     style={{ borderRadius: 8, border: '1px solid #eee' }}
+                    onError={e => { e.target.onerror = null; e.target.src = '/file.svg'; }}
                   />
                   <div style={{ marginTop: 8, color: selected.color, fontWeight: 'bold', fontSize: 15 }}>
                     Scan to tip via PayPal

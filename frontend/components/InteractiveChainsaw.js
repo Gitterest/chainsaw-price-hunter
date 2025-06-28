@@ -13,7 +13,7 @@ export default function InteractiveChainsaw() {
       audioRef.current.play().catch((err) => {
         // Log error for debugging
         console.error('Audio playback failed:', err);
-        alert('Audio playback failed: ' + err.message);
+        // Optionally show a user-friendly message
       });
     }
     setActive(true);
@@ -22,7 +22,7 @@ export default function InteractiveChainsaw() {
 
   return (
     <div className={styles.container} onClick={handleClick} aria-label="Play chainsaw">
-      <audio ref={audioRef} src="/chainsaw-01.mp3" preload="auto" controls />
+      <audio ref={audioRef} src="/chainsaw-01.mp3" preload="auto" />
       <svg className={styles.chainsaw} viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="15" width="35" height="20" rx="4" className={styles.body} />
         <rect x="32" y="20" width="80" height="10" rx="5" className={styles.blade} />
