@@ -242,7 +242,7 @@ function Donate() {
         aria-label="Toggle Donate"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Image src="/donateicon1.png" alt="Donate" width={32} height={32} />
+        <Image src="/donateicon.png" alt="Donate Icon" width={32} height={32} />
       </motion.button>
     </>
   );
