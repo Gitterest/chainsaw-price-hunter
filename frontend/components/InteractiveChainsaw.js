@@ -22,7 +22,11 @@ export default function InteractiveChainsaw() {
 
   return (
     <div className={styles.container} onClick={handleClick} aria-label="Play chainsaw">
-      <audio ref={audioRef} src="/chainsaw-01.mp3" preload="auto" />
+      <audio ref={audioRef} preload="auto">
+        <source src="/chainsaw-01.ogg" type="audio/ogg" />
+        <source src="/chainsaw-01.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
       <svg className={styles.chainsaw} viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="15" width="35" height="20" rx="4" className={styles.body} />
         <rect x="32" y="20" width="80" height="10" rx="5" className={styles.blade} />
