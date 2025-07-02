@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaDonate, FaBtc, FaMonero, FaDollarSign, FaPaypal } from 'react-icons/fa';
+import { FaBtc, FaMonero, FaDollarSign, FaPaypal } from 'react-icons/fa';
 import Image from 'next/image';
 
-// Add a simple chainsaw SVG for the donate button
-const ChainsawIcon = ({ size = 32 }) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="10" y="20" width="20" height="8" rx="2" fill="#f97316" stroke="#222" strokeWidth="2"/>
-    <rect x="30" y="22" width="8" height="4" rx="1" fill="#222" stroke="#222" strokeWidth="1"/>
-    <circle cx="12" cy="24" r="2" fill="#fff" stroke="#222" strokeWidth="1"/>
-    <circle cx="36" cy="24" r="2" fill="#fff" stroke="#222" strokeWidth="1"/>
-    <rect x="38" y="23" width="4" height="2" rx="1" fill="#f97316" stroke="#222" strokeWidth="1"/>
-    <rect x="6" y="23" width="4" height="2" rx="1" fill="#f97316" stroke="#222" strokeWidth="1"/>
-  </svg>
-);
 
 function Donate() {
   const [copied, setCopied] = useState(false);
@@ -221,7 +210,7 @@ function Donate() {
         </div>
       )}
 
-      {/* Glowing animated chainsaw donate button */}
+      {/* Glowing animated donate button */}
       <motion.button
         whileHover={{ scale: 1.15, boxShadow: '0 0 16px #f97316, 0 0 32px #fff' }}
         animate={{
@@ -253,7 +242,7 @@ function Donate() {
         aria-label="Toggle Donate"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <ChainsawIcon size={32} />
+        <Image src="/donateicon.png" alt="Donate" width={32} height={32} />
       </motion.button>
     </>
   );
