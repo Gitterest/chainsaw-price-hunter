@@ -84,7 +84,7 @@ function Donate() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0,0,0,0.5)',
+            background: 'rgba(0,0,0,0.8)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -97,7 +97,7 @@ function Donate() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             style={{
-              background: 'rgba(30, 30, 30, 0.97)',
+              background: 'rgba(30, 30, 30, 1)',
               borderRadius: '1.25rem',
               padding: '1.2rem',
               maxWidth: '340px',
