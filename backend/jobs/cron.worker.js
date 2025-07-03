@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require("../scraper");
+const { scrapeOfferUp, scrapeMercari } = require("../scraper");
 
 require("dotenv").config();
 
@@ -17,7 +17,6 @@ const runJob = async () => {
   await connectDB();
   console.log("🧹 Running scraper job...");
 
-  const facebookData = await scrapeFacebookMarketplace();
   const offerupData = await scrapeOfferUp();
   const mercariData = await scrapeMercari();
 

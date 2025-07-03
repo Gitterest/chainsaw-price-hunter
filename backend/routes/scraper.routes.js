@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const {
-  scrapeFacebookMarketplace,
   scrapeOfferUp,
   scrapeMercari,
   fallbackData
@@ -21,7 +20,6 @@ router.get('/test', (req, res) => {
 router.get('/all', async (req, res) => {
   try {
     const results = await Promise.allSettled([
-      scrapeFacebookMarketplace(),
       scrapeOfferUp(),
       scrapeMercari()
     ]);
@@ -36,10 +34,10 @@ router.get('/all', async (req, res) => {
       }
     });
 
-    // Use fallback data if no listings found
+    // Use empty array if no listings found
     if (!listings.length) {
-      console.log('No listings found, using fallback data');
-      return res.json({ listings: fallbackData });
+      console.log('No listings found, returning empty array');
+      return res.json({ listings: [] });
     }
 
     res.json({ listings });
@@ -64,7 +62,6 @@ router.get('/prices', async (req, res) => {
   try {
     console.log('Starting scraping for:', query);
     const results = await Promise.allSettled([
-      scrapeFacebookMarketplace(query),
       scrapeOfferUp(query),
       scrapeMercari(query)
     ]);
@@ -81,10 +78,10 @@ router.get('/prices', async (req, res) => {
 
     console.log(`Total listings found: ${listings.length}`);
 
-    // Use fallback data if no listings found
+    // Use empty array if no listings found
     if (!listings.length) {
-      console.log('No listings found, using fallback data');
-      return res.json({ listings: fallbackData });
+      console.log('No listings found, returning empty array');
+      return res.json({ listings: [] });
     }
 
     res.json({ listings });

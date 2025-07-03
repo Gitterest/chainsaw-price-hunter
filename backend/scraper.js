@@ -146,91 +146,6 @@ const fallbackData = [
   }
 ];
 
-// Facebook Marketplace Scraper (public search)
-async function scrapeFacebookMarketplace(query = 'chainsaw') {
-  return withTimeout(async () => {
-    let browser;
-    let page;
-    const listings = [];
-    
-    try {
-      console.log('Starting Facebook Marketplace scraping for:', query);
-      ({ browser, page } = await launchStealthBrowser());
-      
-      const url = `https://www.facebook.com/marketplace/search/?query=${encodeURIComponent(query)}`;
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
-      await page.waitForTimeout(3000);
-      
-      // Try multiple selectors for Facebook
-      const selectors = [
-        '[role="article"]',
-        '[data-testid="marketplace_feed_item"]',
-        'div[style*="border-radius"]',
-        'a[href*="/marketplace/item/"]'
-      ];
-      
-      let articles = [];
-      for (const selector of selectors) {
-        articles = await page.$$(selector);
-        if (articles.length > 0) {
-          console.log(`Found ${articles.length} articles using selector: ${selector}`);
-          break;
-        }
-      }
-      
-      for (let card of articles.slice(0, 5)) {
-        let title = '', image = '', link = '', price = '';
-        try {
-          // Try multiple selectors for title
-          title = await card.$eval('span, h3, div[dir="auto"]', el => el.innerText).catch(() => '');
-          if (!title) title = await card.$eval('*', el => el.innerText).catch(() => '');
-          
-          // Try to get image
-          image = await card.$eval('img', el => el.src).catch(() => '');
-          
-          // Try to get link
-          link = await card.$eval('a', a => a.href).catch(() => '');
-          
-          // Try to get price
-          price = await card.$eval('[dir="auto"]', el => el.innerText).catch(() => '');
-        } catch (e) {
-          console.log('Skipping Facebook card due to error:', e.message);
-          continue;
-        }
-        
-        if (title && title.length > 5) {
-          listings.push({ 
-            title: title.substring(0, 100), 
-            price: price || 'N/A', 
-            image: image || 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=300&h=200&fit=crop&auto=format', 
-            url: link || '', 
-            source: 'Facebook' 
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Facebook scraping failed:', error.message, error.stack);
-      if (page) {
-        try {
-          const content = await page.content();
-          console.error('Facebook page HTML (first 1000 chars):', content.slice(0, 1000));
-        } catch (e) {
-          console.error('Failed to get Facebook page HTML:', e.message);
-        }
-      }
-    } finally {
-      if (browser) await browser.close();
-    }
-    
-    if (!listings.length) {
-      console.log('Facebook: No listings found, returning fallback data');
-      return { listings: fallbackData };
-    }
-    console.log(`Facebook scraping completed with ${listings.length} results`);
-    return { listings };
-  }, 25000); // 25 second timeout for Facebook
-}
-
 // OfferUp Scraper
 async function scrapeOfferUp(query = 'chainsaw') {
   return withTimeout(async () => {
@@ -271,18 +186,39 @@ async function scrapeOfferUp(query = 'chainsaw') {
       for (let card of items.slice(0, 5)) {
         let title = '', price = '', image = '', link = '';
         try {
-          // Try multiple selectors for title
-          title = await card.$eval('h2, h3, [data-testid="item-title"]', el => el.innerText).catch(() => '');
+          // Robust title extraction
+          title = await card.$eval('h2, h3, [data-testid="item-title"], [class*="title"], span', el => el.innerText).catch(() => '');
           if (!title) title = await card.$eval('*', el => el.innerText).catch(() => '');
-          
-          // Try to get price
-          price = await card.$eval('span[data-testid="item-price"], [class*="price"]', el => el.innerText).catch(() => '');
-          
-          // Try to get image
+          if (!title) {
+            // Try XPath for title
+            const [titleNode] = await card.$x('.//*[contains(@class, "title") or self::h2 or self::h3 or self::span]');
+            if (titleNode) title = await (await titleNode.getProperty('innerText')).jsonValue();
+          }
+
+          // Robust price extraction
+          price = await card.$eval('span[data-testid="item-price"], [class*="price"], .price, span', el => el.innerText).catch(() => '');
+          if (!price) {
+            const [priceNode] = await card.$x('.//*[contains(@class, "price") or self::span]');
+            if (priceNode) price = await (await priceNode.getProperty('innerText')).jsonValue();
+          }
+
+          // Robust image extraction
           image = await card.$eval('img', el => el.src).catch(() => '');
-          
-          // Try to get link
-          link = await card.$eval('a', a => 'https://offerup.com' + a.getAttribute('href')).catch(() => '');
+          if (!image) {
+            const [imgNode] = await card.$x('.//img');
+            if (imgNode) image = await (await imgNode.getProperty('src')).jsonValue();
+          }
+
+          // Robust link extraction
+          link = await card.$eval('a', a => a.href.startsWith('http') ? a.href : 'https://offerup.com' + a.getAttribute('href')).catch(() => '');
+          if (!link) {
+            const [aNode] = await card.$x('.//a[contains(@href, "/item/")]');
+            if (aNode) {
+              let href = await (await aNode.getProperty('href')).jsonValue();
+              if (!href.startsWith('http')) href = 'https://offerup.com' + href;
+              link = href;
+            }
+          }
         } catch (e) {
           console.log('Skipping OfferUp card due to error:', e.message);
           continue;
@@ -313,8 +249,8 @@ async function scrapeOfferUp(query = 'chainsaw') {
     }
     
     if (!listings.length) {
-      console.log('OfferUp: No listings found, returning fallback data');
-      return { listings: fallbackData };
+      console.log('OfferUp: No listings found, returning empty array');
+      return { listings: [] };
     }
     console.log(`OfferUp scraping completed with ${listings.length} results`);
     return { listings };
@@ -361,18 +297,38 @@ async function scrapeMercari(query = 'chainsaw') {
       for (let card of cards.slice(0, 5)) {
         let title = '', price = '', image = '', link = '';
         try {
-          // Try multiple selectors for title
-          title = await card.$eval('[data-testid="item-title"], h3, span', el => el.innerText).catch(() => '');
+          // Robust title extraction
+          title = await card.$eval('[data-testid="item-title"], h3, span, [class*="title"]', el => el.innerText).catch(() => '');
           if (!title) title = await card.$eval('*', el => el.innerText).catch(() => '');
-          
-          // Try to get price
-          price = await card.$eval('[data-testid="item-price"], [class*="price"]', el => el.innerText).catch(() => '');
-          
-          // Try to get image
+          if (!title) {
+            const [titleNode] = await card.$x('.//*[contains(@class, "title") or self::h3 or self::span]');
+            if (titleNode) title = await (await titleNode.getProperty('innerText')).jsonValue();
+          }
+
+          // Robust price extraction
+          price = await card.$eval('[data-testid="item-price"], [class*="price"], .price, span', el => el.innerText).catch(() => '');
+          if (!price) {
+            const [priceNode] = await card.$x('.//*[contains(@class, "price") or self::span]');
+            if (priceNode) price = await (await priceNode.getProperty('innerText')).jsonValue();
+          }
+
+          // Robust image extraction
           image = await card.$eval('img', img => img.src).catch(() => '');
-          
-          // Try to get link
-          link = await card.$eval('a', a => 'https://www.mercari.com' + a.getAttribute('href')).catch(() => '');
+          if (!image) {
+            const [imgNode] = await card.$x('.//img');
+            if (imgNode) image = await (await imgNode.getProperty('src')).jsonValue();
+          }
+
+          // Robust link extraction
+          link = await card.$eval('a', a => a.href.startsWith('http') ? a.href : 'https://www.mercari.com' + a.getAttribute('href')).catch(() => '');
+          if (!link) {
+            const [aNode] = await card.$x('.//a[contains(@href, "/item/")]');
+            if (aNode) {
+              let href = await (await aNode.getProperty('href')).jsonValue();
+              if (!href.startsWith('http')) href = 'https://www.mercari.com' + href;
+              link = href;
+            }
+          }
         } catch (e) {
           console.log('Skipping Mercari card due to error:', e.message);
           continue;
@@ -403,8 +359,8 @@ async function scrapeMercari(query = 'chainsaw') {
     }
     
     if (!listings.length) {
-      console.log('Mercari: No listings found, returning fallback data');
-      return { listings: fallbackData };
+      console.log('Mercari: No listings found, returning empty array');
+      return { listings: [] };
     }
     console.log(`Mercari scraping completed with ${listings.length} results`);
     return { listings };
@@ -412,7 +368,6 @@ async function scrapeMercari(query = 'chainsaw') {
 }
 
 module.exports = {
-  scrapeFacebookMarketplace,
   scrapeOfferUp,
   scrapeMercari,
   fallbackData

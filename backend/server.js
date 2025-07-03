@@ -110,11 +110,10 @@ app.get("/api/prices", async (req, res) => {
     }
 
     // Import scrapers
-    const { scrapeFacebookMarketplace, scrapeOfferUp, scrapeMercari } = require('./scraper');
+    const { scrapeOfferUp, scrapeMercari } = require('./scraper');
 
     // Perform scraping using Promise.allSettled to capture partial results if errors occur
     const results = await Promise.allSettled([
-      scrapeFacebookMarketplace(query),
       scrapeOfferUp(query),
       scrapeMercari(query)
     ]);
