@@ -81,22 +81,26 @@ function Donate() {
           }}
         >
           <motion.div
-            onClick={(e) => e.stopPropagation()}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              background: 'rgba(30, 30, 30, 1)',
-              borderRadius: '1.25rem',
-              padding: '1.2rem',
-              maxWidth: '340px',
-              width: '95%',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
-              textAlign: 'center',
-              position: 'relative',
-              color: '#fff',
-            }}
-          >
+  onClick={(e) => e.stopPropagation()}
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.3 }}
+  style={{
+    background: 'rgba(255, 255, 255, 0.08)',
+    backdropFilter: 'blur(14px)',
+    WebkitBackdropFilter: 'blur(14px)',
+    borderRadius: '1.25rem',
+    padding: '1.5rem',
+    maxWidth: '360px',
+    width: '95%',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.45)',
+    textAlign: 'center',
+    position: 'relative',
+    color: '#fff',
+  }}
+>
+
             <button
               onClick={() => setIsOpen(false)}
               style={{
@@ -211,6 +215,7 @@ function Donate() {
       )}
 
       {/* Glowing animated donate button */}
+       {/* Glowing animated donate button */}
       <motion.button
         whileHover={{ scale: 1.15, boxShadow: '0 0 16px #f97316, 0 0 32px #fff' }}
         animate={{
@@ -242,23 +247,12 @@ function Donate() {
         aria-label="Toggle Donate"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <motion.button
-  onClick={() => setIsOpen(!isOpen)}
-  style={{
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 0,
-  }}
-  aria-label="Toggle Donate"
->
-  <img
-    src="/donateicon.png"
-    alt="Donate"
-    style={{ width: '25px', height: '25px' }}
-  />
-</motion.button>
-
+        <img
+          src="/donateicon.jpeg"
+          alt="Donate"
+          style={{ width: '32px', height: '32px' }}
+        />
+      </motion.button>
     </>
   );
 }
