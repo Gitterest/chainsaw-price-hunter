@@ -117,7 +117,7 @@ function Donate() {
             >
               &times;
             </button>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: 1 }}>Support Sawprice Hunter</h2>
+            <h2 className="neon-fire-orange" style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: 1 }}>Support Sawprice Hunter</h2>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 8, margin: '0.5rem 0 1.2rem' }}>
               {platforms.map((p) => (
                 <button

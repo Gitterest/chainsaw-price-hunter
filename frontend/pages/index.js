@@ -106,7 +106,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <span className={styles.neonGlow}>Sawprice Hunter</span>
+          <span className="neon-fire-orange">ѕαω ρяι¢є нυηтєя</span>
         </h1>
         <p className={styles.description}>Chainsaw pricing across major platforms</p>
 

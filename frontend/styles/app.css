@@ -139,3 +139,46 @@ button:hover {
   margin-top: 20px;
   font-family: 'Rajdhani', sans-serif;
 }
+
+/* Neon Fire Orange Pulse Animation */
+@keyframes neon-fire-pulse {
+  0% {
+    text-shadow:
+      0 0 6px #ffae42,
+      0 0 12px #ffae42,
+      0 0 24px #ffae42,
+      0 0 48px #ff5500,
+      0 0 96px #ff5500;
+    color: #ffae42;
+  }
+  50% {
+    text-shadow:
+      0 0 12px #ffae42,
+      0 0 32px #ff5500,
+      0 0 64px #ff5500,
+      0 0 128px #ffae42;
+    color: #ff5500;
+  }
+  100% {
+    text-shadow:
+      0 0 6px #ffae42,
+      0 0 12px #ffae42,
+      0 0 24px #ffae42,
+      0 0 48px #ff5500,
+      0 0 96px #ff5500;
+    color: #ffae42;
+  }
+}
+
+.neon-fire-orange {
+  color: #ffae42;
+  text-shadow:
+    0 0 6px #ffae42,
+    0 0 12px #ffae42,
+    0 0 24px #ffae42,
+    0 0 48px #ff5500,
+    0 0 96px #ff5500;
+  animation: neon-fire-pulse 3s infinite;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1.5px;
+}
