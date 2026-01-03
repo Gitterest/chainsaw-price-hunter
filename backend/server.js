@@ -13,18 +13,20 @@ const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === 'production';
 
 // ✅ Connect to MongoDB using Mongoose
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://rawfabricator:mongodmon@chainsawdb.6izrg.mongodb.net/?retryWrites=true&w=majority";
+const MONGO_URI = process.env.MONGO_URI;
 
 async function connectDB() {
+  if (!MONGO_URI) {
+    console.warn("⚠️ MONGO_URI not set. Running without database connectivity.");
+    return;
+  }
+
   try {
     await mongoose.connect(MONGO_URI);
     console.log("✅ Connected to MongoDB via Mongoose!");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
-    // Don't exit in production, allow fallback
-    if (!isProduction) {
-      process.exit(1);
-    }
+    console.warn("⚠️ Continuing without MongoDB connection. Searches and alerts won't be persisted.");
   }
 }
 
